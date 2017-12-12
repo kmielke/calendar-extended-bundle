@@ -1,0 +1,36 @@
+{
+    "name": "kmielke/calendar-extended-bundle",
+    "description": "Contao calendar extension. Better recurring events and exceptions.",
+    "keywords":["contao", "fullcalendar", "calendar", "events", "exceptions", "registration", "vacations"],
+    "type":"contao-bundle",
+    "license":"LGPL-3.0+",
+    "authors": [
+        {
+            "name": "Kester Mielke",
+            "email": "kester.mielke@posteo.de"
+        }
+    ],
+    "require": {
+        "php":">=7.0",
+        "symfony/framework-bundle": "^3.4",
+        "contao/core-bundle":"^4.4",
+        "menatwork/contao-multicolumnwizard": "^3.3"
+    },
+    "autoload": {
+        "psr-4": {
+            "Kmielke\\CalendarExtendedBundle\\": "src/"
+        },
+        "classmap": [
+            "src/Resources/contao/"
+        ],
+        "exclude-from-classmap": [
+            "src/Resources/contao/config/",
+            "src/Resources/contao/dca/",
+            "src/Resources/contao/languages/",
+            "src/Resources/contao/templates/"
+        ]
+    },
+    "extra": {
+        "contao-manager-plugin": "Kmielke\\CalendarExtendedBundle\\ContaoManager\\Plugin"
+    }
+}

@@ -1,0 +1,116 @@
+<h1>Contao Calendar</h1>
+
+<div id="calendar" style="margin:auto 25px;"></div>
+
+<script>
+
+    /**
+     * updateEventTimes()
+     *
+     * This function updates the date and/or time of the selected event.
+     * updateEventTimes() is called by eventDrop-event and eventResize-event
+     *
+     * @param event
+     */
+    function updateEventTimes(event) {
+        var xEvent = {};
+
+        xEvent['id'] = event.id;
+        xEvent['startTime'] = event.start.unix();
+        xEvent['allDay'] = event.allDay;
+
+        if (!event.allDay && !event.end) {
+            var defaultDuration = moment.duration($('#calendar').fullCalendar('option', 'defaultTimedEventDuration'));
+            event.end = event.start.clone().add(defaultDuration);
+        }
+
+        if (event.end) {
+            xEvent['endTime'] = event.end.unix();
+        }
+
+        $.ajax({
+            url: '<?php echo $this->url; ?>',
+            type: 'POST',
+            data: {
+                type: 'updateEventTimes',
+                event: xEvent
+            },
+            datatype: 'json',
+            async: false,
+            error: function() {
+                alert('error while updating event!');
+                revertFunc();
+            }
+        });
+    }
+
+    $(document).ready(function() {
+
+        /**
+         * Init the fullcalendar
+         */
+        $('#calendar').fullCalendar({
+            // Fullcalendar options set by the contao module (can be overwritten)
+            locale: '<?php echo $this->locale; ?>',
+            defaultDate: '<?php echo $this->defaultDate; ?>',
+
+            // Other fullcalendar options (see fullcalendar doc)
+            header: {
+                left: 'prev,next today',
+                center: 'title',
+                right: 'month,agendaWeek,agendaDay,listDay'
+            },
+            height: 800,
+            defaultView: 'agendaWeek',
+            weekNumbers: '<?php echo $this->weekNumbers; ?>',
+            weekNumbersWithinDays: '<?php echo $this->weekNumbersWithinDays; ?>',
+            weekNumberCalculation: 'ISO',
+            firstDay: '<?php echo $this->firstDay; ?>',
+            businessHours: '<?php echo $this->businessHours; ?>',
+            editable: '<?php echo $this->editable; ?>',
+            eventLimit: '<?php echo $this->eventLimit; ?>',
+            timezone: "local",
+
+            // Fullcalendar events
+            eventSources: [{
+                url: '<?php echo $this->url; ?>',
+                type:  'POST',
+                data:  {
+                    type: 'fetchEvents',
+                    REQUEST_TOKEN: "<?php echo REQUEST_TOKEN; ?>",
+                },
+                error: function() {
+                    alert('<?php echo $this->fetch_error; ?>');
+                }
+            }],
+
+            // Render the font-awesome icon if exists
+            eventRender: function (event, element, view) {
+                if (event.editable) {
+                    element.find(".fc-time").prepend('<i class="fa fa-pencil-square-o" aria-hidden="true" style="padding-right:5px;"></i>');
+                }
+                if (event.icon) {
+                    element.find(".fc-time").prepend('<i class="fa ' + event.icon + '" aria-hidden="true" style="padding-right:5px;"></i>');
+                }
+            },
+
+            // Called whenever a event is moved
+            eventDrop: function(event, delta, revertFunc) {
+                if (!confirm('<?php echo $this->confirm_drop; ?>')) {
+                    revertFunc();
+                }
+                updateEventTimes(event);
+            },
+
+            // Called whenever a event is resized
+            eventResize: function(event, delta, revertFunc) {
+                if (!confirm('<?php echo $this->confirm_resize; ?>')) {
+                    revertFunc();
+                }
+                updateEventTimes(event);
+            }
+        });
+
+    });
+
+</script>

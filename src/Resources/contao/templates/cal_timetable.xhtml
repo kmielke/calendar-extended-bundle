@@ -1,0 +1,66 @@
+<div class="timetable">
+
+    <?php if ($this->use_navigation): ?>
+    <div class="timetable_navi">
+        <?php if ($this->linkCurrent): ?>
+        <div class="head current"><a href="<?php echo $this->currHref; ?>" title="<?php echo $this->currTitle; ?>"><?php echo $this->currLink; ?></a></div>
+        <?php endif; ?>
+        <div class="head previous"><a href="<?php echo $this->prevHref; ?>" title="<?php echo $this->prevTitle; ?>"><?php echo $this->prevLink; ?></a></div>
+        <div class="head current"><?php echo $this->current; ?></div>
+        <div class="head next"><a href="<?php echo $this->nextHref; ?>" title="<?php echo $this->nextTitle; ?>"><?php echo $this->nextLink; ?></a></div>
+    </div>
+    <?php endif; ?>
+
+    <div class="timetable_body" style="position:relative;">
+        <table cellspacing="0" cellpadding="0" border="1" class="timetable_body full" summary="Timetable">
+            <tr class="timetable_days">
+                <?php if ($this->cal_times): ?>
+                <td valing="bottom" class="time">Zeit</td>
+                <?php endif; ?>
+                <?php foreach ($this->weekday as $i => $day): ?>
+                <td class="<?php echo $day['class']; ?>">
+                    <div class="head"><?php echo $day['label']; ?></div>
+                </td>
+                <?php endforeach; ?>
+            </tr>
+
+            <tr class="timetable_events">
+                <?php if ($this->cal_times): ?>
+                <td>
+                    <div class="times" style="position:relative;">
+                        <?php foreach ($this->times as $i => $time): ?>
+                        <div class="time <?php echo $time['class']; ?>" style="<?php echo $time['style']; ?>"><?php echo $time['label']; ?></div>
+                        <?php endforeach; ?>
+                    </div>
+                </td>
+                <?php endif; ?>
+                <?php foreach ($this->weekday as $i => $day): ?>
+                <td class="<?php echo $day['class']; ?>">
+                    <div class="events" style="position:relative;">
+                        <?php foreach ($day['events'] as $i => $event): ?>
+                        <?php if ($event): ?>
+                        <div class="event<?php if ($event['class']): echo $event['class']; endif; ?>" style="overflow:hidden;<?php echo $event['bgstyle']; ?><?php if ($event['style']): echo $event['style']; endif; ?>" title="<?php echo $event['title']; ?>">
+                            <div class="event_title <?php echo $event['fgstyle']; ?>">
+                                <a style="<?php echo $event['fgstyle']; ?>" href="<?php echo $event['href']; ?>" title="<?php echo $event['title']; ?> (<?php if ($event['day']): echo $event['day']; ?>, <?php endif; echo $event['date']; if ($event['time']): ?>, <?php echo $event['time']; endif; ?>)"<?php echo $event['target']; ?>><?php echo $event['link']; ?></a>
+                            </div>
+                            <div class="event_time">
+                                <?php if ($event['time']): ?>
+                                <?php echo $event['time']; ?><br/>
+                                <?php endif; ?>
+                            </div>
+                            <div class="event_body">
+                                <?php if ($event['teaser']): ?>
+                                <?php echo $event['teaser']; ?>
+                                <?php endif; ?>
+                            </div>
+                        </div>
+                        <?php endif; ?>
+                        <?php endforeach; ?>
+                    </div>
+                </td>
+                <?php endforeach; ?>
+            </tr>
+
+        </table>
+    </div>
+</div>

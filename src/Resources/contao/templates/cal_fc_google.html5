@@ -1,0 +1,49 @@
+<h1>Google Calendar</h1>
+
+<div id="calendar" style="margin:auto 25px;"></div>
+
+<script>
+
+    $(document).ready(function() {
+
+        /**
+         * Init the fullcalendar
+         */
+        $('#calendar').fullCalendar({
+            // Fullcalendar options set by the contao module (can be overwritten)
+            locale: '<?php echo $this->locale; ?>',
+
+            // Other fullcalendar options (see fullcalendar doc)
+            header: {
+                left: 'prev,next today',
+                center: 'title',
+                right: 'month,listYear'
+            },
+            timezone: "local",
+
+            displayEventTime: true, // don't show the time column in list view
+
+            // To make your own Google API key, follow the directions here:
+            // http://fullcalendar.io/docs/google_calendar/
+            googleCalendarApiKey: 'google calendar api',
+
+            eventSources: [
+                {
+                   googleCalendarId: '<google login'
+                },
+                {
+                    googleCalendarId: 'de.german#holiday@group.v.calendar.google.com'
+                }
+            ],
+
+            eventClick: function(event) {
+                // opens events in a popup window
+                window.open(event.url, 'gcalevent', 'width=700,height=600');
+                return false;
+            }
+
+        });
+
+    });
+
+</script>

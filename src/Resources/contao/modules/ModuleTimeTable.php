@@ -15,8 +15,7 @@
 /**
  * Namespace
  */
-namespace Contao;
-
+namespace Kmielke\CalendarExtendedBundle;
 
 /**
  * Class ModuleTimeTableExt
@@ -25,7 +24,7 @@ namespace Contao;
  * @author     Kester Mielke
  * @package    Devtools
  */
-class ModuleTimeTable extends \EventsExt
+class ModuleTimeTable extends EventsExt
 {
 
     /**
@@ -51,7 +50,9 @@ class ModuleTimeTable extends \EventsExt
 
     /**
      * Do not show the module if no calendar has been selected
+     *
      * @return string
+     * @throws \Exception
      */
     public function generate()
     {
@@ -274,7 +275,9 @@ class ModuleTimeTable extends \EventsExt
 
     /**
      * Return the week days and labels as array
+     *
      * @return array
+     * @throws \Exception
      */
     protected function compileDays()
     {

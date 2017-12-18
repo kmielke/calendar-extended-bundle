@@ -8,15 +8,14 @@
  * @license LGPL-3.0+
  */
 
-namespace Contao;
-
+namespace Kmielke\CalendarExtendedBundle;
 
 /**
  * Front end module "calendar".
  *
  * @author Leo Feyer <https://github.com/leofeyer>
  */
-class ModuleFullcalendar extends \EventsExt
+class ModuleFullcalendar extends EventsExt
 {
 
     /**
@@ -47,6 +46,7 @@ class ModuleFullcalendar extends \EventsExt
      * Do not show the module if no calendar has been selected
      *
      * @return string
+     * @throws \Exception
      */
     public function generate()
     {
@@ -420,7 +420,7 @@ class ModuleFullcalendar extends \EventsExt
 
         // Get the event
         $id = \Input::post('event');
-        $event = \CalendarEventsModelExt::findById($id);
+        $event = CalendarEventsModelExt::findById($id);
 
         // Replace the edit_* value with the db value
         foreach ($ff as $k => $v) {
@@ -483,7 +483,7 @@ class ModuleFullcalendar extends \EventsExt
         unset($event['allDay']);
 
         // Check if it is allowed to edit this event
-        $update_event = \CalendarEventsModelExt::findById($id);
+        $update_event = CalendarEventsModelExt::findById($id);
         if ($update_event->recurring || $update_event->recurringExt || $update_event->useExceptions) {
             return false;
         }

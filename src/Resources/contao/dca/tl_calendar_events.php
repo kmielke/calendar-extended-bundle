@@ -11,6 +11,8 @@
  * @copyright Kester Mielke 2010-2013
  */
 
+namespace Kmielke\CalendarExtendedBundle;
+
 foreach ($GLOBALS['TL_DCA']['tl_calendar_events']['config']['onsubmit_callback'] as $k => $v) {
     if ($v[0] == 'tl_calendar_events' && $v[1] == 'adjustTime') {
         unset($GLOBALS['TL_DCA']['tl_calendar_events']['config']['onsubmit_callback'][$k]);
@@ -449,10 +451,9 @@ class tl_calendar_events_ext extends \Backend
 
     /**
      * @param $varValue
-     * @param DataContainer $dc
      * @return null
      */
-    public function getWeekday($varValue, \DataContainer $dc)
+    public function getWeekday($varValue)
     {
         if ($varValue === '') {
             return 9;
@@ -464,15 +465,15 @@ class tl_calendar_events_ext extends \Backend
     /**
      * Just check that only one option is active for recurring events
      * @param $varValue
-     * @param DataContainer $dc
+     * @param \DataContainer $dc
      * @return mixed
-     * @throws Exception
+     * @throws \Exception
      */
-    public function checkRecurring($varValue, DataContainer $dc)
+    public function checkRecurring($varValue, \DataContainer $dc)
     {
         if ($varValue) {
             if ($dc->activeRecord->recurring && $dc->activeRecord->recurringExt) {
-                throw new Exception($GLOBALS['TL_LANG']['tl_calendar_events']['checkRecurring']);
+                throw new \Exception($GLOBALS['TL_LANG']['tl_calendar_events']['checkRecurring']);
             }
         }
 
@@ -483,15 +484,15 @@ class tl_calendar_events_ext extends \Backend
     /**
      * Just check if any kind of recurring is in use
      * @param $varValue
-     * @param DataContainer $dc
+     * @param \DataContainer $dc
      * @return mixed
-     * @throws Exception
+     * @throws \Exception
      */
-    public function checkExceptions($varValue, DataContainer $dc)
+    public function checkExceptions($varValue, \DataContainer $dc)
     {
         if ($varValue) {
             if (!$dc->activeRecord->recurring && !$dc->activeRecord->recurringExt) {
-                throw new Exception($GLOBALS['TL_LANG']['tl_calendar_events']['checkExceptions']);
+                throw new \Exception($GLOBALS['TL_LANG']['tl_calendar_events']['checkExceptions']);
             }
         }
 
@@ -500,12 +501,12 @@ class tl_calendar_events_ext extends \Backend
 
 
     /**
-     * @param DataContainer $dc
+     * @param \DataContainer $dc
      * @return mixed
-     * @throws Exception
+     * @throws \Exception
      * @return boolean
      */
-    public function checkOverlapping(DataContainer $dc)
+    public function checkOverlapping(\DataContainer $dc)
     {
         // Return if there is no active record (override all)
         if (!$dc->activeRecord) {
@@ -546,7 +547,7 @@ class tl_calendar_events_ext extends \Backend
             $nonUniqueEvents = array();
 
             // find all events
-            $objEvents = \CalendarEventsModelExt::findCurrentByPid(
+            $objEvents = CalendarEventsModelExt::findCurrentByPid(
                 (int)$dc->activeRecord->pid,
                 (int)$dc->activeRecord->startTime,
                 (int)$dc->activeRecord->endTime);
@@ -578,9 +579,9 @@ class tl_calendar_events_ext extends \Backend
 
 
     /**
-     * @param DataContainer $dc
+     * @param \DataContainer $dc
      */
-    public function adjustTime(DataContainer $dc)
+    public function adjustTime(\DataContainer $dc)
     {
         // Return if there is no active record (override all)
         if (!$dc->activeRecord) {
@@ -641,8 +642,8 @@ class tl_calendar_events_ext extends \Backend
 
                 // Check the date
                 try {
-                    $newDate = new Date($fixedDate['new_repeat']);
-                } catch (Exception $e) {
+                    $newDate = new \Date($fixedDate['new_repeat']);
+                } catch (\Exception $e) {
                     return false;
                 }
 
@@ -1050,7 +1051,7 @@ class tl_calendar_events_ext extends \Backend
 
         $eid = (int)$dc->activeRecord->id;
         $fid = (int)$dc->activeRecord->regform;
-        $regCount = \Contao\CalendarLeadsModel::regCountByFormEvent($fid, $eid);
+        $regCount = CalendarLeadsModel::regCountByFormEvent($fid, $eid);
 
         $values[0]['curr'] = (int)$regCount;
         $values[0]['mini'] = ($values[0]['mini']) ? (int)$values[0]['mini'] : 0;

@@ -8,8 +8,7 @@
  * @license LGPL-3.0+
  */
 
-namespace Contao;
-
+namespace Kmielke\CalendarExtendedBundle;
 
 /**
  * Class ModuleEventListExt
@@ -18,7 +17,7 @@ namespace Contao;
  * @author     Kester Mielke
  * @package    Devtools
  */
-class ModuleEventlist extends \EventsExt
+class ModuleEventlist extends EventsExt
 {
 
     /**

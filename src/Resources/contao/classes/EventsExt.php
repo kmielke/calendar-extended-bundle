@@ -15,7 +15,7 @@
 /**
  * Namespace
  */
-namespace Contao;
+namespace Kmielke\CalendarExtendedBundle;
 
 /**
  * Class EventExt
@@ -45,10 +45,12 @@ class EventsExt extends \Events
 
     /**
      * Get all events of a certain period
-     * @param array
-     * @param integer
-     * @param integer
+     *
+     * @param array $arrCalendars
+     * @param int $intStart
+     * @param int $intEnd
      * @return array
+     * @throws \Exception
      */
     protected function getAllEvents($arrCalendars, $intStart, $intEnd)
     {
@@ -58,10 +60,13 @@ class EventsExt extends \Events
 
     /**
      * Get all events of a certain period
-     * @param array
-     * @param integer
-     * @param integer
+     *
+     * @param $arrCalendars
+     * @param $intStart
+     * @param $intEnd
+     * @param null $arrParam
      * @return array
+     * @throws \Exception
      */
     protected function getAllEventsExt($arrCalendars, $intStart, $intEnd, $arrParam = null)
     {
@@ -98,7 +103,7 @@ class EventsExt extends \Events
             }
 
             // Get the events of the current period
-            $objEvents = \CalendarEventsModelExt::findCurrentByPid($id, $intStart, $intEnd);
+            $objEvents = CalendarEventsModelExt::findCurrentByPid($id, $intStart, $intEnd);
 
             if ($objEvents === null) {
                 continue;
@@ -279,7 +284,7 @@ class EventsExt extends \Events
 
                             // date to search for
                             $findDate = $objEvents->startTime;
-                            $s = strtotime(date("d.m.Y", $objEvents->startTime));
+                            //  $s = strtotime(date("d.m.Y", $objEvents->startTime));
                             // $searchDate = mktime(0, 0, 0, date('m', $s), date('d', $s), date('Y', $s));
 
                             // store old date values for later reset
@@ -468,7 +473,7 @@ class EventsExt extends \Events
                 }
 
                 // Get the events of the current period
-                $objEvents = \CalendarEventsModelExt::findCurrentByPid($id, $intStart, $intEnd);
+                $objEvents = CalendarEventsModelExt::findCurrentByPid($id, $intStart, $intEnd);
 
                 if ($objEvents === null) {
                     continue;
@@ -484,7 +489,7 @@ class EventsExt extends \Events
                      * Multi-day event
                      * first we have to find all free days
                      */
-                    $span = Calendar::calculateSpan($objEvents->startTime, $objEvents->endTime);
+                    $span = \Calendar::calculateSpan($objEvents->startTime, $objEvents->endTime);
 
                     // unset the first day of the multi-day event
                     $intDate = $objEvents->startTime;
@@ -548,8 +553,6 @@ class EventsExt extends \Events
         if (isset($GLOBALS['TL_HOOKS']['getAllEvents']) && is_array($GLOBALS['TL_HOOKS']['getAllEvents'])) {
             foreach ($GLOBALS['TL_HOOKS']['getAllEvents'] as $callback) {
                 $this->import($callback[0]);
-                //$this->arrEvents = $this->$callback[0]->$callback[1]($this->arrEvents, $arrCalendars, $intStart, $intEnd, $this);
-                // Fix for PHP 7.x
                 $this->arrEvents = $this->{$callback[0]}->{$callback[1]}($this->arrEvents, $arrCalendars, $intStart, $intEnd, $this);
             }
         }

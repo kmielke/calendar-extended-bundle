@@ -8,15 +8,14 @@
  * @license LGPL-3.0+
  */
 
-namespace Contao;
-
+namespace Kmielke\CalendarExtendedBundle;
 
 /**
  * Front end module "event reader".
  *
  * @author Leo Feyer <https://github.com/leofeyer>
  */
-class ModuleEventReader extends \EventsExt
+class ModuleEventReader extends EventsExt
 {
 
     /**
@@ -95,7 +94,7 @@ class ModuleEventReader extends \EventsExt
         $this->Template->back = $GLOBALS['TL_LANG']['MSC']['goBack'];
 
         // Get the current event
-        $objEvent = \CalendarEventsModelExt::findPublishedByParentAndIdOrAlias(\Input::get('events'), $this->cal_calendar);
+        $objEvent = CalendarEventsModelExt::findPublishedByParentAndIdOrAlias(\Input::get('events'), $this->cal_calendar);
 
         if (null === $objEvent) {
             /** @var \PageError404 $objHandler */

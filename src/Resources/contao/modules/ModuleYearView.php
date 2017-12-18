@@ -11,8 +11,7 @@
  * @copyright Kester Mielke 2010-2013
  */
 
-namespace Contao;
-
+namespace Kmielke\CalendarExtendedBundle;
 
 /**
  * Class ModuleYearViewExt
@@ -21,7 +20,7 @@ namespace Contao;
  * @author     Kester Mielke
  * @package    Devtools
  */
-class ModuleYearView extends \EventsExt
+class ModuleYearView extends EventsExt
 {
 
     /**
@@ -50,6 +49,7 @@ class ModuleYearView extends \EventsExt
      * Do not show the module if no calendar has been selected
      *
      * @return string
+     * @throws \Exception
      */
     public function generate()
     {
@@ -248,7 +248,10 @@ class ModuleYearView extends \EventsExt
 
     /**
      * Return the week days and labels as array
+     *
+     * @param $currYear
      * @return array
+     * @throws \Exception
      */
     protected function compileDays($currYear)
     {

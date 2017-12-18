@@ -11,8 +11,7 @@
  * @copyright Kester Mielke 2010-2013
  */
 
-namespace Contao;
-
+namespace Kmielke\CalendarExtendedBundle;
 
 /**
  * Class ModuleEventMenuExt

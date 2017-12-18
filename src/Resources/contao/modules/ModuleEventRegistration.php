@@ -11,9 +11,7 @@
  * @copyright Kester Mielke 2010-2013
  */
 
-namespace Contao;
-
-use NotificationCenter\Model\Notification;
+namespace Kmielke\CalendarExtendedBundle;
 
 
 /**
@@ -85,7 +83,7 @@ class ModuleEventRegistration extends \Module
         }
 
         // Event auf Existens prüfen
-        $objEvent = \CalendarEventsModelExt::findById($event_id);
+        $objEvent = CalendarEventsModelExt::findById($event_id);
         if (!$objEvent) {
             $objTemplate->hasError = true;
             $msgError[] = $GLOBALS['TL_LANG']['tl_module']['regerror']['noevt'];
@@ -114,12 +112,12 @@ class ModuleEventRegistration extends \Module
             $objNotification = \NotificationCenter\Model\Notification::findByPk($ncid);
             if (null !== $objNotification) {
                 $arrTokens = array();
-                $objResult = \CalendarLeadsModel::findByLeadEventMail($lead_id, $event_id, $email);
+                $objResult = CalendarLeadsModel::findByLeadEventMail($lead_id, $event_id, $email);
 
                 if ($objResult !== null) {
                     // zuerst den entsprechenden Datensatz updaten...
                     $published = $this->regtype;
-                    $result = \CalendarLeadsModel::updateByPid($objResult->pid, $published);
+                    $result = CalendarLeadsModel::updateByPid($objResult->pid, $published);
 
                     if ($result) {
                         // Dann bauen wir arrTokens für die Nachrichten

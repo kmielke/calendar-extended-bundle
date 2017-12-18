@@ -11,12 +11,16 @@
  * @copyright Kester Mielke 2010-2013
  */
 
+namespace Kmielke\CalendarExtendedBundle;
 
 /**
  * Add palettes to tl_module
  */
 
 // Palette for calendar
+use Contao\Controller;
+use NotificationCenter\Model\Notification;
+
 $GLOBALS['TL_DCA']['tl_module']['palettes']['calendar'] = str_replace
 (
     ';{redirect_legend}',
@@ -373,7 +377,7 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['filter_fields'] = array
  * @author     Kester Mielke
  * @package    Controller
  */
-class calendar_Ext extends Backend
+class calendar_Ext extends \Backend
 {
 
     /**
@@ -392,7 +396,7 @@ class calendar_Ext extends Backend
     public function getEventField()
     {
         // Load tl_calendar_events data
-        \Controller::loadDataContainer('tl_calendar_events');
+        Controller::loadDataContainer('tl_calendar_events');
         \System::loadLanguageFile('tl_calendar_events');
 
         // Get the event fields
@@ -423,7 +427,7 @@ class calendar_Ext extends Backend
 
         $return = array();
 
-        $objNotifications = \NotificationCenter\Model\Notification::findAll();
+        $objNotifications = Notification::findAll();
         if ($objNotifications !== null) {
             while ($objNotifications->next()) {
                 $return[$objNotifications->id] = $objNotifications->title;
@@ -495,13 +499,13 @@ class calendar_Ext extends Backend
     /**
      * @param $varValue
      * @return mixed
-     * @throws Exception
+     * @throws \Exception
      */
     public function checkDuration($varValue)
     {
         if (strlen($varValue) > 0) {
             if (($timestamp = date('dmY', strtotime($varValue, time()))) === date('dmY', time())) {
-                throw new Exception($GLOBALS['TL_LANG']['tl_module']['displayDurationError2'] . ': ' . $timestamp);
+                throw new \Exception($GLOBALS['TL_LANG']['tl_module']['displayDurationError2'] . ': ' . $timestamp);
             }
         }
         return $varValue;
@@ -511,13 +515,13 @@ class calendar_Ext extends Backend
     /**
      * @param $varValue
      * @return mixed
-     * @throws Exception
+     * @throws \Exception
      */
     public function checkCalFormat($varValue)
     {
         if (strlen($varValue) > 0) {
             if (($timestamp = date('dmYHis', strtotime($varValue, time()))) === date('dmYHis', time())) {
-                throw new Exception($GLOBALS['TL_LANG']['tl_module']['displayDurationError2'] . ': ' . $timestamp);
+                throw new \Exception($GLOBALS['TL_LANG']['tl_module']['displayDurationError2'] . ': ' . $timestamp);
             }
         }
         return $varValue;

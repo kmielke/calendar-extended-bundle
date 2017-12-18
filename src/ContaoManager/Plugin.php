@@ -8,7 +8,7 @@
  * @license LGPL-3.0+
  */
 
-#declare(strict_types = 1);
+declare(strict_types = 1);
 
 namespace Kmielke\CalendarExtendedBundle\ContaoManager;
 

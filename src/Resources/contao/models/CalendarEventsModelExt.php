@@ -8,8 +8,7 @@
  * @license LGPL-3.0+
  */
 
-namespace Contao;
-
+namespace Kmielke\CalendarExtendedBundle;
 
 /**
  * Reads and writes events

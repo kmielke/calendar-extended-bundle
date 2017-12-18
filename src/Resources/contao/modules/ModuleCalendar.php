@@ -8,15 +8,14 @@
  * @license LGPL-3.0+
  */
 
-namespace Contao;
-
+namespace Kmielke\CalendarExtendedBundle;
 
 /**
  * Front end module "calendar".
  *
  * @author Leo Feyer <https://github.com/leofeyer>
  */
-class ModuleCalendar extends \EventsExt
+class ModuleCalendar extends EventsExt
 {
 
     /**
@@ -43,6 +42,7 @@ class ModuleCalendar extends \EventsExt
      * Do not show the module if no calendar has been selected
      *
      * @return string
+     * @throws \Exception
      */
     public function generate()
     {
@@ -241,6 +241,7 @@ class ModuleCalendar extends \EventsExt
      * Return all weeks of the current month as array
      *
      * @return array
+     * @throws \Exception
      */
     protected function compileWeeks()
     {

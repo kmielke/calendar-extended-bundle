@@ -15,7 +15,7 @@
 /**
  * Namespace
  */
-namespace Contao;
+namespace Kmielke\CalendarExtendedBundle;
 
 /**
  * Class TimePeriodExt

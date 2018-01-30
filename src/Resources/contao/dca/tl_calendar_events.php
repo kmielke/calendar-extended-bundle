@@ -8,10 +8,10 @@
  * @package   Contao
  * @author    Kester Mielke
  * @license   LGPL
- * @copyright Kester Mielke 2010-2013
+ * @copyright Kester Mielke 2009-2018
  */
 
-namespace Kmielke\CalendarExtendedBundle;
+//namespace Kmielke\CalendarExtendedBundle;
 
 foreach ($GLOBALS['TL_DCA']['tl_calendar_events']['config']['onsubmit_callback'] as $k => $v) {
     if ($v[0] == 'tl_calendar_events' && $v[1] == 'adjustTime') {
@@ -429,11 +429,11 @@ $GLOBALS['TL_DCA']['tl_calendar_events']['fields']['repeatEnd'] = array
 
 
 /**
- * Class tl_calendar_events
+ * Class tl_calendar_events_ext
  *
  * Provide miscellaneous methods that are used by the data configuration array.
- * @copyright  Leo Feyer 2005-2010
- * @author     Leo Feyer <http://www.contao.org>
+ * @copyright  Kester Mielke 2009-2018
+ * @author     Kester Mielke
  * @package    Controller
  */
 class tl_calendar_events_ext extends \Backend

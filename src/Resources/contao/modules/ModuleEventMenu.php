@@ -20,7 +20,7 @@ namespace Kmielke\CalendarExtendedBundle;
  * @author     Kester Mielke
  * @package    Devtools
  */
-class ModuleEventMenu extends \ModuleCalendar
+class ModuleEventMenu extends ModuleCalendar
 {
 
     /**

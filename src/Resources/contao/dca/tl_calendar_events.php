@@ -77,7 +77,7 @@ $GLOBALS['TL_DCA']['tl_calendar_events']['fields']['repeatWeekday'] = array
     'options' => array(1, 2, 3, 4, 5, 6, 0),
     'reference' => &$GLOBALS['TL_LANG']['DAYS'],
     'load_callback' => array(array('tl_calendar_events_ext', 'getWeekday')),
-    'eval' => array('multiple' => true, 'tl_class' => 'long'),
+    'eval' => array('multiple' => true, 'tl_class' => 'clr'),
     'sql' => "varchar(128) NOT NULL default ''"
 );
 
@@ -718,6 +718,16 @@ class tl_calendar_events_ext extends \Backend
                 //check if we are at the end
                 if ($next >= $end) {
                     break;
+                }
+
+                $value = (int)$arrRange['value'];
+                $wdays = (is_array(deserialize($dc->activeRecord->repeatWeekday)))
+                    ? deserialize($dc->activeRecord->repeatWeekday)
+                    : false;
+
+                if ($unit === 'days' && $value === 1 && $wdays) {
+                    $wday = date('N', $next);
+                    $store = in_array($wday, $wdays);
                 }
 
                 $store = true;

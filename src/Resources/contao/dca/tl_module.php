@@ -284,7 +284,8 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['range_date'] = array
     'eval' => array
     (
         'columnsCallback' => array('calendar_Ext', 'getRange'),
-        'buttons' => array('up' => false, 'down' => false, 'copy' => false)
+        'buttons' => array('up' => false, 'down' => false, 'copy' => false),
+        'tl_class' => 'clr'
     ),
     'sql' => "text NULL"
 );
@@ -396,7 +397,7 @@ class calendar_Ext extends \Backend
     public function getEventField()
     {
         // Load tl_calendar_events data
-        Controller::loadDataContainer('tl_calendar_events');
+        \Controller::loadDataContainer('tl_calendar_events');
         \System::loadLanguageFile('tl_calendar_events');
 
         // Get the event fields

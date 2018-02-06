@@ -10,6 +10,10 @@
 
 namespace Kmielke\CalendarExtendedBundle;
 
+use Kmielke\CalendarExtendedBundle\CalendarEventsModelExt;
+use Kmielke\CalendarExtendedBundle\CalendarLeadsModel;
+use Kmielke\CalendarExtendedBundle\EventsExt;
+
 /**
  * Front end module "event reader".
  *
@@ -389,6 +393,7 @@ class ModuleEventReader extends EventsExt
                         $regform = str_replace('value="eventtitle"', 'value="' . $objEvent->title . '"', $regform);
                         $regform = str_replace('value="eventstart"', 'value="' . \Date::parse($objPage->datimFormat, $intStartTime) . '"', $regform);
                         $regform = str_replace('value="eventend"', 'value="' . \Date::parse($objPage->datimFormat, $intEndTime) . '"', $regform);
+                        $regform = str_replace('value="location_mail"', 'value="' . $objEvent->location_mail . '"', $regform);
                         $regform = str_replace('value="published"', 'value="' . $published . '"', $regform);
                         $objTemplate->regform = $regform;
                     }

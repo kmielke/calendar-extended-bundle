@@ -17,6 +17,10 @@
  */
 namespace Kmielke\CalendarExtendedBundle;
 
+use Contao\Date;
+
+use Kmielke\CalendarExtendedBundle\EventsExt;
+
 /**
  * Class ModuleTimeTableExt
  *

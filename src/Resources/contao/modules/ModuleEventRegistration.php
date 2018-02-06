@@ -13,13 +13,18 @@
 
 namespace Kmielke\CalendarExtendedBundle;
 
+use Contao\Model;
+use NotificationCenter\Model\Notification;
+
+use Kmielke\CalendarExtendedBundle\CalendarLeadsModel;
+use Kmielke\CalendarExtendedBundle\CalendarEventsModelExt;
 
 /**
  * Class ModuleEventRegistration
  *
  * @author     Kester Mielke
  */
-class ModuleEventRegistration extends \Module
+class ModuleEventRegistration extends Module
 {
 
     /**
@@ -109,7 +114,7 @@ class ModuleEventRegistration extends \Module
             global $objPage;
 
             // Jetzt noch die notification_center mais raus
-            $objNotification = \NotificationCenter\Model\Notification::findByPk($ncid);
+            $objNotification = Notification::findByPk($ncid);
             if (null !== $objNotification) {
                 $arrTokens = array();
                 $objResult = CalendarLeadsModel::findByLeadEventMail($lead_id, $event_id, $email);

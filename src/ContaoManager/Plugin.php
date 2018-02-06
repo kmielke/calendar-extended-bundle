@@ -35,6 +35,7 @@ class Plugin implements BundlePluginInterface
                 ->setLoadAfter(
                     [
                         'Contao\CoreBundle\ContaoCoreBundle',
+                        'Contao\CalendarBundle\ContaoCalendarBundle',
                         'MenAtWork\MultiColumnWizard'
                     ]
                 )

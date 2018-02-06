@@ -1,6 +1,6 @@
 {
     "name": "kmielke/calendar-extended-bundle",
-    "description": "Contao calendar extension. Better recurring events and exceptions.",
+    "description": "Contao 4 LTS calendar extension bundle. Better recurring events and exceptions.",
     "keywords":["contao", "fullcalendar", "calendar", "events", "exceptions", "registration", "vacations"],
     "type":"contao-bundle",
     "license":"LGPL-3.0-or-later",

@@ -26,17 +26,17 @@ class CalendarEventsModelExt extends \CalendarEventsModel
      * @param integer $intEnd The end date as Unix timestamp
      * @param array $arrOptions An optional options array
      *
-     * @return \Model\Collection|\CalendarEventsModelExt[]|\CalendarEventsModelExt|null A collection of models or null if there are no events
+	 * @return Model\Collection|CalendarEventsModel[]|CalendarEventsModel|null A collection of models or null if there are no events
      */
     public static function findCurrentByPid($intPid, $intStart, $intEnd, array $arrOptions = array())
     {
         $t = static::$strTable;
-        $intStart = intval($intStart);
-        $intEnd = intval($intEnd);
+		$intStart = (int) $intStart;
+		$intEnd = (int) $intEnd;
 
         $arrColumns = array("$t.pid=? AND (($t.startTime>=$intStart AND $t.startTime<=$intEnd) OR ($t.endTime>=$intStart AND $t.endTime<=$intEnd) OR ($t.startTime<=$intStart AND $t.endTime>=$intEnd) OR (($t.recurring=1 OR $t.recurringExt=1) AND ($t.recurrences=0 OR $t.repeatEnd>=$intStart) AND $t.startTime<=$intEnd) OR ($t.repeatFixedDates is not null AND $t.repeatEnd>=$intStart))");
 
-        if (!BE_USER_LOGGED_IN) {
+		if (!static::isPreviewMode($arrOptions)) {
             $time = \Date::floorToMinute();
             $arrColumns[] = "($t.start='' OR $t.start<='$time') AND ($t.stop='' OR $t.stop>'" . ($time + 60) . "') AND $t.published='1'";
         }
@@ -56,11 +56,12 @@ class CalendarEventsModelExt extends \CalendarEventsModel
      * @param integer $intLimit An optional limit
      * @param array $arrOptions An optional options array
      *
-     * @return \Model\Collection|\CalendarEventsModelExt[]|\CalendarEventsModelExt|null A collection of models or null if there are no events
+	 * @return Model\Collection|CalendarEventsModel[]|CalendarEventsModel|null A collection of models or null if there are no events
      */
     public static function findUpcomingByPids($arrIds, $intLimit = 0, array $arrOptions = array())
     {
-        if (!is_array($arrIds) || empty($arrIds)) {
+		if (empty($arrIds) || !\is_array($arrIds))
+		{
             return null;
         }
 
@@ -100,7 +101,7 @@ class CalendarEventsModelExt extends \CalendarEventsModel
 
         $arrColumns = array("$t.pid=? AND (($t.startTime>=$intStart AND $t.startTime<=$intEnd) OR ($t.endTime>=$intStart AND $t.endTime<=$intEnd) OR ($t.startTime<=$intStart AND $t.endTime>=$intEnd) OR (($t.recurring=1 OR $t.recurringExt=1) AND ($t.recurrences=0 OR $t.repeatEnd>=$intStart) AND $t.startTime<=$intEnd) OR ($t.repeatFixedDates is not null AND $t.repeatEnd>=$intStart))");
 
-        if (!BE_USER_LOGGED_IN) {
+        if (!static::isPreviewMode($arrOptions)) {
             $time = \Date::floorToMinute();
             $arrColumns[] = "($t.start='' OR $t.start<='$time') AND ($t.stop='' OR $t.stop>'" . ($time + 60) . "') AND $t.published='1'";
         }

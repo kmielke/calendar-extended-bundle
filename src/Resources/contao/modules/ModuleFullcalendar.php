@@ -10,6 +10,9 @@
 
 namespace Kmielke\CalendarExtendedBundle;
 
+use Kmielke\CalendarExtendedBundle\EventsExt;
+use Kmielke\CalendarExtendedBundle\CalendarEventsModelExt;
+
 /**
  * Front end module "calendar".
  *
@@ -201,14 +204,14 @@ class ModuleFullcalendar extends EventsExt
             $assets_path = 'system/modules/calendar_extended/assets';
 
             $GLOBALS['TL_CSS'][] = $assets_path . '/fullcalendar/fullcalendar.css|static';
+//            $GLOBALS['TL_CSS'][] = $assets_path . '/fullcalendar/lib/cupertino/jquery-ui.min.css|static';
             $GLOBALS['TL_CSS'][] = 'https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css';
 
             if ($objPage->hasJQuery !== '1') {
                 $GLOBALS['TL_JAVASCRIPT'][] = $assets_path . '/fullcalendar/lib/jquery.min.js|static';
             }
 
-            $GLOBALS['TL_CSS'][] = $assets_path . '/fullcalendar/lib/cupertino/jquery-ui.min.css|static';
-            $GLOBALS['TL_JAVASCRIPT'][] = $assets_path . '/fullcalendar/lib/jquery-ui.min.js|static';
+//            $GLOBALS['TL_JAVASCRIPT'][] = $assets_path . '/fullcalendar/lib/jquery-ui.min.js|static';
 
             $GLOBALS['TL_JAVASCRIPT'][] = $assets_path . '/fullcalendar/lib/moment.min.js|static';
             $GLOBALS['TL_JAVASCRIPT'][] = $assets_path . '/fullcalendar/fullcalendar.js|static';

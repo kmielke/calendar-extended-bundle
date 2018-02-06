@@ -17,6 +17,13 @@
  */
 namespace Kmielke\CalendarExtendedBundle;
 
+use Contao\Calendar;
+use Contao\CalendarModel;
+use Contao\Date;
+use Contao\Events;
+
+use Kmielke\CalendarExtendedBundle\CalendarEventsModelExt;
+
 /**
  * Class EventExt
  *
@@ -24,7 +31,7 @@ namespace Kmielke\CalendarExtendedBundle;
  * @author     Kester Mielke
  * @package    Devtools
  */
-class EventsExt extends \Events
+class EventsExt extends Events
 {
 
     /**
@@ -94,7 +101,7 @@ class EventsExt extends \Events
 
         foreach ($arrCalendars as $id) {
             $strUrl = $this->strUrl;
-            $objCalendar = \CalendarModel::findByPk($id);
+            $objCalendar = CalendarModel::findByPk($id);
 
             // Get the current "jumpTo" page
             if ($objCalendar !== null && $objCalendar->jumpTo && ($objTarget = $objCalendar->getRelated('jumpTo')) !== null) {
@@ -184,9 +191,9 @@ class EventsExt extends \Events
                 }
 
                 // keep the original values
-                $orgDateStart = new \Date($objEvents->startTime);
-                $orgDateEnd = new \Date($objEvents->endTime);
-                $orgDateSpan = \Calendar::calculateSpan($objEvents->startTime, $objEvents->endTime);
+                $orgDateStart = new Date($objEvents->startTime);
+                $orgDateEnd = new Date($objEvents->endTime);
+                $orgDateSpan = Calendar::calculateSpan($objEvents->startTime, $objEvents->endTime);
 
                 // keep the css class of the event
                 $masterCSSClass = $objEvents->cssClass;
@@ -210,8 +217,8 @@ class EventsExt extends \Events
                     $count = 0;
 
                     // start and end time of the event
-                    $eventStartTime = \Date::parse($GLOBALS['TL_CONFIG']['timeFormat'], $objEvents->startTime);
-                    $eventEndTime = \Date::parse($GLOBALS['TL_CONFIG']['timeFormat'], $objEvents->endTime);
+                    $eventStartTime = Date::parse($GLOBALS['TL_CONFIG']['timeFormat'], $objEvents->startTime);
+                    $eventEndTime = Date::parse($GLOBALS['TL_CONFIG']['timeFormat'], $objEvents->endTime);
 
                     // now we have to take care about the exception dates to skip
                     if ($objEvents->useExceptions) {
@@ -309,7 +316,7 @@ class EventsExt extends \Events
                                     $oldDate['endTime'] = $objEvents->endTime;
 
                                     // also keep the old values in the row
-                                    $objEvents->oldDate = \Date::parse($GLOBALS['TL_CONFIG']['dateFormat'], $objEvents->startTime);
+                                    $objEvents->oldDate = Date::parse($GLOBALS['TL_CONFIG']['dateFormat'], $objEvents->startTime);
 
                                     // value to add to the old date
                                     $newDate = $arrEventSkipInfo[$objEvents->id][$r]['new_exception'];
@@ -319,13 +326,13 @@ class EventsExt extends \Events
 
                                     // check if we have to change the time of the event
                                     if ($arrEventSkipInfo[$objEvents->id][$r]['new_start']) {
-                                        $objEvents->oldStartTime = \Date::parse($GLOBALS['TL_CONFIG']['timeFormat'], $objEvents->startTime);
-                                        $objEvents->oldEndTime = \Date::parse($GLOBALS['TL_CONFIG']['timeFormat'], $objEvents->endTime);
+                                        $objEvents->oldStartTime = Date::parse($GLOBALS['TL_CONFIG']['timeFormat'], $objEvents->startTime);
+                                        $objEvents->oldEndTime = Date::parse($GLOBALS['TL_CONFIG']['timeFormat'], $objEvents->endTime);
 
                                         // get the date of the event and add the new time to the new date
-                                        $newStart = \Date::parse($GLOBALS['TL_CONFIG']['dateFormat'], $objEvents->startTime)
+                                        $newStart = Date::parse($GLOBALS['TL_CONFIG']['dateFormat'], $objEvents->startTime)
                                             . ' ' . $arrEventSkipInfo[$objEvents->id][$r]['new_start'];
-                                        $newEnd = \Date::parse($GLOBALS['TL_CONFIG']['dateFormat'], $objEvents->endTime)
+                                        $newEnd = Date::parse($GLOBALS['TL_CONFIG']['dateFormat'], $objEvents->endTime)
                                             . ' ' . $arrEventSkipInfo[$objEvents->id][$r]['new_end'];
 
                                         //set the new values
@@ -412,19 +419,19 @@ class EventsExt extends \Events
                             // new start time
                             $strNewDate = $fixedDate['new_repeat'];
                             $strNewTime = (strlen($fixedDate['new_start']) ? $fixedDate['new_start'] : $orgDateStart->time);
-                            //$newDateStart = new \Date(trim($strNewDate . ' ' . $strNewTime), \Date::getNumericDatimFormat());
-                            $newDateStart = new \Date(trim($strNewDate . ' ' . $strNewTime), \Config::get('datimFormat'));
+                            //$newDateStart = new Date(trim($strNewDate . ' ' . $strNewTime), Date::getNumericDatimFormat());
+                            $newDateStart = new Date(trim($strNewDate . ' ' . $strNewTime), \Config::get('datimFormat'));
 
                             $objEvents->startTime = $newDateStart->timestamp;
                             $dateNextStart = date('Ymd', $objEvents->startTime);
 
                             // new end time
                             $strNewTime = (strlen($fixedDate['new_end']) ? $fixedDate['new_end'] : $orgDateEnd->time);
-                            //$newDateEnd = new \Date(trim($strNewDate . ' ' . $strNewTime), \Date::getNumericDatimFormat());
-                            $newDateEnd = new \Date(trim($strNewDate . ' ' . $strNewTime), \Config::get('datimFormat'));
+                            //$newDateEnd = new Date(trim($strNewDate . ' ' . $strNewTime), Date::getNumericDatimFormat());
+                            $newDateEnd = new Date(trim($strNewDate . ' ' . $strNewTime), \Config::get('datimFormat'));
                             // Use the multi-day span of the event
                             if ($orgDateSpan > 0) {
-                                $newDateEnd = new \Date(strtotime('+' . $orgDateSpan . ' days', $newDateEnd->timestamp), \Date::getNumericDatimFormat());
+                                $newDateEnd = new Date(strtotime('+' . $orgDateSpan . ' days', $newDateEnd->timestamp), Date::getNumericDatimFormat());
                             }
 
                             $objEvents->endTime = $newDateEnd->timestamp;
@@ -489,7 +496,7 @@ class EventsExt extends \Events
                      * Multi-day event
                      * first we have to find all free days
                      */
-                    $span = \Calendar::calculateSpan($objEvents->startTime, $objEvents->endTime);
+                    $span = Calendar::calculateSpan($objEvents->startTime, $objEvents->endTime);
 
                     // unset the first day of the multi-day event
                     $intDate = $objEvents->startTime;

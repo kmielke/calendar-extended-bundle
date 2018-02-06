@@ -10,6 +10,9 @@
 
 namespace Kmielke\CalendarExtendedBundle;
 
+use Kmielke\CalendarExtendedBundle\EventsExt;
+use Kmielke\CalendarExtendedBundle\CalendarLeadsModel;
+
 /**
  * Class ModuleEventListExt
  *
@@ -233,14 +236,12 @@ class ModuleEventlist extends EventsExt
             foreach ($days as $day => $events) {
                 foreach ($events as $event) {
                     // Use repeatEnd if > 0 (see #8447)
-                    if (($event['repeatEnd'] ?: $event['endTime']) < $strBegin || $event['startTime'] > $strEnd)
-                    {
+                    if (($event['repeatEnd'] ?: $event['endTime']) < $strBegin || $event['startTime'] > $strEnd) {
                         continue;
                     }
 
                     // Skip occurrences in the past but show running events (see #8497)
-                    if ($event['repeatEnd'] && $event['end'] < $strBegin)
-                    {
+                    if ($event['repeatEnd'] && $event['end'] < $strBegin) {
                         continue;
                     }
 
@@ -464,9 +465,7 @@ class ModuleEventlist extends EventsExt
             if ($this->cal_noSpan) {
                 $objTemplate->day = $event['day'];
                 $objTemplate->date = $event['date'];
-            }
-            else
-            {
+            } else {
                 $objTemplate->day = $event['firstDay'];
                 $objTemplate->date = $event['firstDate'];
             }

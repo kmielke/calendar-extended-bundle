@@ -17,6 +17,8 @@
  */
 namespace Kmielke\CalendarExtendedBundle;
 
+use Contao\Widget;
+
 /**
  * Class TimePeriodExt
  *
@@ -24,7 +26,7 @@ namespace Kmielke\CalendarExtendedBundle;
  * @author     Kester Mielke
  * @package    Devtools
  */
-class TimePeriodExt extends \Widget
+class TimePeriodExt extends Widget
 {
 
     /**

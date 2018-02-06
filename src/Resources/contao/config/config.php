@@ -60,12 +60,18 @@ array_insert($GLOBALS['FE_MOD'], 99, array
 (
     'events' => array
     (
-        'timetable'	        => 'ModuleTimeTable',
-        'yearview'	        => 'ModuleYearView',
-        'evr_registration'  => 'ModuleEventRegistration',
-        'fullcalendar'      => 'ModuleFullcalendar'
+        'timetable'	        => 'Kmielke\CalendarExtendedBundle\ModuleTimeTable',
+        'yearview'	        => 'Kmielke\CalendarExtendedBundle\ModuleYearView',
+        'evr_registration'  => 'Kmielke\CalendarExtendedBundle\ModuleEventRegistration',
+        'fullcalendar'      => 'Kmielke\CalendarExtendedBundle\ModuleFullcalendar'
     )
 ));
+
+// Replace Contao Module
+$GLOBALS['FE_MOD']['events']['calendar']    = 'Kmielke\CalendarExtendedBundle\ModuleCalendar';
+$GLOBALS['FE_MOD']['events']['eventlist']   = 'Kmielke\CalendarExtendedBundle\ModuleEventlist';
+$GLOBALS['FE_MOD']['events']['eventmenu']   = 'Kmielke\CalendarExtendedBundle\ModuleEventMenu';
+$GLOBALS['FE_MOD']['events']['eventreader'] = 'Kmielke\CalendarExtendedBundle\ModuleEventReader';
 
 /**
  * BACK END FORM FIELDS
@@ -73,7 +79,7 @@ array_insert($GLOBALS['FE_MOD'], 99, array
 
 array_insert($GLOBALS['BE_FFL'], 99, array
 (
-    'timePeriodExt'     => 'TimePeriodExt',
+    'timePeriodExt'     => 'Kmielke\CalendarExtendedBundle\TimePeriodExt',
 ));
 
 // config.php
@@ -98,4 +104,4 @@ $GLOBALS['NOTIFICATION_CENTER']['NOTIFICATION_TYPE']['event_registration'] = arr
 /**
  * Event Hook
  */
-$GLOBALS['TL_HOOKS']['getAllEvents'][] = array('EventUrls', 'modifyEventUrl');
+$GLOBALS['TL_HOOKS']['getAllEvents'][] = array('Kmielke\CalendarExtendedBundle\EventUrls', 'modifyEventUrl');

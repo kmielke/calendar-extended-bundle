@@ -11,8 +11,6 @@
  * @copyright Kester Mielke 2009-2018
  */
 
-//namespace Kmielke\CalendarExtendedBundle;
-
 foreach ($GLOBALS['TL_DCA']['tl_calendar_events']['config']['onsubmit_callback'] as $k => $v) {
     if ($v[0] == 'tl_calendar_events' && $v[1] == 'adjustTime') {
         unset($GLOBALS['TL_DCA']['tl_calendar_events']['config']['onsubmit_callback'][$k]);
@@ -1001,10 +999,11 @@ class tl_calendar_events_ext extends \Backend
                         // Find the date and replace it
                         if (array_key_exists($dateToFind, $arrAllRecurrences)) {
                             $arrAllRecurrences[$dateToFind] = array(
-                                'int_start' => $dateToSave,
-                                'int_end' => $dateToSaveEnd,
-                                'str_start' => \Date::parse($GLOBALS['TL_CONFIG']['datimFormat'], $dateToSave),
-                                'str_end' => \Date::parse($GLOBALS['TL_CONFIG']['datimFormat'], $dateToSaveEnd)
+                                'int_start'     => $dateToSave,
+                                'int_end'       => $dateToSaveEnd,
+                                'str_start'     => \Date::parse($GLOBALS['TL_CONFIG']['datimFormat'], $dateToSave),
+                                'str_end'       => \Date::parse($GLOBALS['TL_CONFIG']['datimFormat'], $dateToSaveEnd),
+                                'moveReason'    => ($row['reason']) ? $row['reason'] : ''
                             );
                         }
                     }

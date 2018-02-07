@@ -216,7 +216,7 @@ $GLOBALS['TL_DCA']['tl_calendar_events']['fields']['regperson'] = array
     (
         'tl_class' => 'w50 clr',
         'columnsCallback' => array('tl_calendar_events_ext', 'setmaxperson'),
-        'buttons' => array('up' => false, 'down' => false, 'delete' => false, 'copy' => false)
+        'buttons' => array('add' => false, 'new' => false, 'up' => false, 'down' => false, 'delete' => false, 'copy' => false)
     ),
     'sql' => "blob NULL"
 );
@@ -425,6 +425,7 @@ $GLOBALS['TL_DCA']['tl_calendar_events']['fields']['repeatEnd'] = array
     'sql' => "int(10) unsigned NOT NULL default '0'"
 );
 
+use Kmielke\CalendarExtendedBundle\CalendarLeadsModel;
 
 /**
  * Class tl_calendar_events_ext

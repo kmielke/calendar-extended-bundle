@@ -5,15 +5,11 @@
  *
  * Copyright (c) 2005-2016 Leo Feyer
  *
- * @package   Contao
- * @author    Kester Mielke
- * @license   LGPL
- * @copyright Kester Mielke 2010-2013
+ * @license LGPL-3.0+
  */
 
 namespace Kmielke\CalendarExtendedBundle;
 
-use Contao\Model;
 use NotificationCenter\Model\Notification;
 
 use Kmielke\CalendarExtendedBundle\CalendarLeadsModel;
@@ -24,7 +20,7 @@ use Kmielke\CalendarExtendedBundle\CalendarEventsModelExt;
  *
  * @author     Kester Mielke
  */
-class ModuleEventRegistration extends Module
+class ModuleEventRegistration extends \Module
 {
 
     /**

@@ -176,6 +176,7 @@ class ModuleEventReader extends EventsExt
                     $nextValueDate = ($fixedDate['new_repeat']) ? strtotime($fixedDate['new_repeat']) : $intStartTime;
                     if (strlen($fixedDate['new_start'])) {
                         $nextStartTime = strtotime(date("Y-m-d", $nextValueDate) . ' ' . date("H:i:s", strtotime($fixedDate['new_start'])));
+                        $nextValueDate = $nextStartTime;
                     } else {
                         $nextStartTime = strtotime(date("Y-m-d", $nextValueDate) . ' ' . date("H:i:s", $intStartTime));
                     }
@@ -185,7 +186,7 @@ class ModuleEventReader extends EventsExt
                         $nextEndTime = strtotime(date("Y-m-d", $nextValueDate) . ' ' . date("H:i:s", $intEndTime));
                     }
 
-                    if ($nextValueDate < time() && $nextEndTime < $objEvent->repeatEnd) {
+                    if ($nextValueDate > time() && $nextEndTime <= $objEvent->repeatEnd) {
                         $intStartTime = $nextStartTime;
                         $intEndTime = $nextEndTime;
                         break;

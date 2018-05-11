@@ -633,6 +633,12 @@ class tl_calendar_events_ext extends \Backend
         $arrFixDates = array();
         $arrayFixedDates = deserialize($dc->activeRecord->repeatFixedDates) ? deserialize($dc->activeRecord->repeatFixedDates) : null;
         if (!is_null($arrayFixedDates)) {
+            usort($arrayFixedDates, function ($a, $b) {
+                $intTimeStampA = strtotime($a["new_repeat"].$a['new_start']);
+                $intTimeStampB = strtotime($b["new_repeat"].$b['new_start']);
+                return strcmp($intTimeStampA, $intTimeStampB);
+            });
+
             foreach ($arrayFixedDates as $fixedDate) {
                 // Check if we have a date
                 if (!strlen($fixedDate['new_repeat'])) {
@@ -664,6 +670,7 @@ class tl_calendar_events_ext extends \Backend
                 );
                 $maxRepeatEnd[] = $new_fix_end_date;
             }
+            $arrSet['repeatFixedDates'] = $arrayFixedDates;
         } else {
             $arrSet['repeatFixedDates'] = null;
         }

@@ -403,13 +403,13 @@ class ModuleTimeTable extends EventsExt
                         $m = date('i', $vv['startTime']);
                         if (is_array($arrListTimes[$h])) {
                             // calculate the top of the event
-                            $top = $arrListTimes[$h]['top'] + $m;
+                            $top = $arrListTimes[$h]['top'] + $m * ($cellhight / 60);
 
                             // calculate the height of the event.
                             $d1 = date_create(date('H:i', $vv['startTime']));
                             $d2 = date_create(date('H:i', $vv['endTime']));
                             $d0 = date_diff($d1, $d2);
-                            $height = ($d0->format('%h') * $cellhight) + $d0->format('%i');
+                            $height = ($d0->format('%h') * $cellhight) + $d0->format('%i') * ($cellhight / 60);
 
                             $vv['style'] .= 'position:absolute;top:' . $top . 'px;height:' . $height . 'px;';
                         }

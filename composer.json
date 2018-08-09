@@ -1,38 +1,48 @@
 {
-    "name": "kmielke/calendar-extended-bundle",
-    "description": "Contao 4 LTS calendar extension bundle. Better recurring events and exceptions.",
-    "keywords":["contao", "fullcalendar", "calendar", "events", "exceptions", "registration", "vacations"],
-    "type":"contao-bundle",
-    "license":"LGPL-3.0-or-later",
-    "authors": [
-        {
-            "name": "Kester Mielke",
-            "email": "kester.mielke@posteo.de"
-        }
-    ],
-    "require": {
-        "php": ">=5.6.0",
-        "contao/core-bundle":"^4.4",
-        "contao/calendar-bundle": "^4.4",
-        "menatwork/contao-multicolumnwizard": "^3.3",
-        "terminal42/notification_center": "1.4.*",
-        "terminal42/contao-leads": "1.4.*"
-    },
-    "autoload": {
-        "psr-4": {
-            "Kmielke\\CalendarExtendedBundle\\": "src/"
-        },
-        "classmap": [
-            "src/Resources/contao/"
-        ],
-        "exclude-from-classmap": [
-            "src/Resources/contao/config/",
-            "src/Resources/contao/dca/",
-            "src/Resources/contao/languages/",
-            "src/Resources/contao/templates/"
-        ]
-    },
-    "extra": {
-        "contao-manager-plugin": "Kmielke\\CalendarExtendedBundle\\ContaoManager\\Plugin"
+  "name": "kmielke/calendar-extended-bundle",
+  "description": "Contao 4 LTS calendar extension bundle. Better recurring events and exceptions.",
+  "keywords": [
+    "contao",
+    "fullcalendar",
+    "calendar",
+    "events",
+    "exceptions",
+    "registration",
+    "vacations"
+  ],
+  "type": "contao-bundle",
+  "license": "LGPL-3.0-or-later",
+  "authors": [
+    {
+      "name": "Kester Mielke",
+      "email": "kester.mielke@posteo.de"
     }
+  ],
+  "require": {
+    "php": ">=5.6.0",
+    "contao/core-bundle": "^4.4",
+    "contao/calendar-bundle": "^4.4",
+    "menatwork/contao-multicolumnwizard": "^3.3",
+    "terminal42/notification_center": "1.4.*",
+    "terminal42/contao-leads": "1.4.*",
+    "fullcalendar/fullcalendar": "^3.9",
+    "fortawesome/font-awesome": "^4.7"
+  },
+  "autoload": {
+    "psr-4": {
+      "Kmielke\\CalendarExtendedBundle\\": "src/"
+    },
+    "classmap": [
+      "src/Resources/contao/"
+    ],
+    "exclude-from-classmap": [
+      "src/Resources/contao/config/",
+      "src/Resources/contao/dca/",
+      "src/Resources/contao/languages/",
+      "src/Resources/contao/templates/"
+    ]
+  },
+  "extra": {
+    "contao-manager-plugin": "Kmielke\\CalendarExtendedBundle\\ContaoManager\\Plugin"
+  }
 }

@@ -197,26 +197,18 @@ class ModuleFullcalendar extends EventsExt
              * - if no just do nothing right now (for the moment)
              */
             $type = $_POST['type'];
-            if (method_exists('ModuleFullcalendar', $type)) {
+            if (method_exists($this, $type)) {
                 $this->$type();
             }
         } else {
-            $assets_path = 'system/modules/calendar_extended/assets';
-
-            $GLOBALS['TL_CSS'][] = $assets_path . '/fullcalendar/fullcalendar.css|static';
-//            $GLOBALS['TL_CSS'][] = $assets_path . '/fullcalendar/lib/cupertino/jquery-ui.min.css|static';
             $GLOBALS['TL_CSS'][] = 'https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css';
 
-            if ($objPage->hasJQuery !== '1') {
-                $GLOBALS['TL_JAVASCRIPT'][] = $assets_path . '/fullcalendar/lib/jquery.min.js|static';
-            }
-
-//            $GLOBALS['TL_JAVASCRIPT'][] = $assets_path . '/fullcalendar/lib/jquery-ui.min.js|static';
-
-            $GLOBALS['TL_JAVASCRIPT'][] = $assets_path . '/fullcalendar/lib/moment.min.js|static';
-            $GLOBALS['TL_JAVASCRIPT'][] = $assets_path . '/fullcalendar/fullcalendar.js|static';
-            $GLOBALS['TL_JAVASCRIPT'][] = $assets_path . '/fullcalendar/gcal.js|static';
-            $GLOBALS['TL_JAVASCRIPT'][] = $assets_path . '/fullcalendar/locale-all.js|static';
+            $assets_path = 'assets';
+            $GLOBALS['TL_CSS'][] = $assets_path . '/fullcalendar/dist/fullcalendar.min.css|static';
+            $GLOBALS['TL_JAVASCRIPT'][] = $assets_path . '/moment/min/moment.min.js|static';
+            $GLOBALS['TL_JAVASCRIPT'][] = $assets_path . '/fullcalendar/dist/fullcalendar.min.js|static';
+            $GLOBALS['TL_JAVASCRIPT'][] = $assets_path . '/fullcalendar/dist/gcal.min.js|static';
+            $GLOBALS['TL_JAVASCRIPT'][] = $assets_path . '/fullcalendar/dist/locale-all.js|static';
 
             /** @var \FrontendTemplate|object $objTemplate */
             $objTemplate = new \FrontendTemplate(($this->cal_ctemplate ? $this->cal_ctemplate : 'cal_fc_default'));

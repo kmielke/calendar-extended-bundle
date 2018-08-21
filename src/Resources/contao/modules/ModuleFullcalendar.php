@@ -204,10 +204,10 @@ class ModuleFullcalendar extends EventsExt
 
             // calendar-extended-bundel assets
             $assets_path = 'bundles/calendarextended';
-            // fullcalendar 3.9
+            // fullcalendar 3.9.0
             $assets_fc = '/fullcalendar-3.9.0';
-            // font-awesome 4.7
-            $assets_fa = 'fullcalendar-3.9.0';
+            // font-awesome 4.7.0
+            $assets_fa = '/font-awesome-4.7.0';
 
             // Load jQuery if not active
             if ($objPage->hasJQuery !== '1') {
@@ -215,7 +215,7 @@ class ModuleFullcalendar extends EventsExt
             }
 
             // CSS files
-            $GLOBALS['TL_CSS'][] = $assets_path . $assets_fa . '/font-awesome.min.css';
+            $GLOBALS['TL_CSS'][] = $assets_path . $assets_fa . '/css/font-awesome.min.css';
             $GLOBALS['TL_CSS'][] = $assets_path . $assets_fc . '/fullcalendar.min.css';
 
             // JS files

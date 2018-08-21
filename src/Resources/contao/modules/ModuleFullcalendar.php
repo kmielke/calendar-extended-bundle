@@ -201,14 +201,28 @@ class ModuleFullcalendar extends EventsExt
                 $this->$type();
             }
         } else {
-            $GLOBALS['TL_CSS'][] = 'https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css';
 
-            $assets_path = 'assets';
-            $GLOBALS['TL_CSS'][] = $assets_path . '/fullcalendar/dist/fullcalendar.min.css|static';
-            $GLOBALS['TL_JAVASCRIPT'][] = $assets_path . '/moment/min/moment.min.js|static';
-            $GLOBALS['TL_JAVASCRIPT'][] = $assets_path . '/fullcalendar/dist/fullcalendar.min.js|static';
-            $GLOBALS['TL_JAVASCRIPT'][] = $assets_path . '/fullcalendar/dist/gcal.min.js|static';
-            $GLOBALS['TL_JAVASCRIPT'][] = $assets_path . '/fullcalendar/dist/locale-all.js|static';
+            // calendar-extended-bundel assets
+            $assets_path = 'bundles/calendarextended';
+            // fullcalendar 3.9
+            $assets_fc = '/fullcalendar-3.9.0';
+            // font-awesome 4.7
+            $assets_fa = 'fullcalendar-3.9.0';
+
+            // Load jQuery if not active
+            if ($objPage->hasJQuery !== '1') {
+                $GLOBALS['TL_JAVASCRIPT'][] = $assets_path . $assets_fc . '/lib/jquery.min.js|static';
+            }
+
+            // CSS files
+            $GLOBALS['TL_CSS'][] = $assets_path . $assets_fa . '/font-awesome.min.css';
+            $GLOBALS['TL_CSS'][] = $assets_path . $assets_fc . '/fullcalendar.min.css';
+
+            // JS files
+            $GLOBALS['TL_JAVASCRIPT'][] = $assets_path . $assets_fc . '/lib/moment.min.js';
+            $GLOBALS['TL_JAVASCRIPT'][] = $assets_path . $assets_fc . '/fullcalendar.min.js';
+            $GLOBALS['TL_JAVASCRIPT'][] = $assets_path . $assets_fc . '/gcal.min.js';
+            $GLOBALS['TL_JAVASCRIPT'][] = $assets_path . $assets_fc . '/locale-all.js';
 
             /** @var \FrontendTemplate|object $objTemplate */
             $objTemplate = new \FrontendTemplate(($this->cal_ctemplate ? $this->cal_ctemplate : 'cal_fc_default'));

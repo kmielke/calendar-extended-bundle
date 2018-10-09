@@ -88,11 +88,9 @@ class EventsExt extends Events
         $this->arrEvents = array();
 
         if ($arrParam !== null) {
+            $arrHolidays = $arrParam[0];
             if (count($arrParam) > 1) {
-                $arrHolidays = $arrParam[0];
                 $showRecurrences = $arrParam[1];
-            } else {
-                $arrHolidays = $arrParam[0];
             }
         }
 
@@ -264,7 +262,7 @@ class EventsExt extends Events
                             $endTime = strtotime($strtotime . ' ' . $eventEndTime, $objEvents->endTime);
 
                             $chkmonth = (int)date('n', $startTime);
-                            if ($chkmonth != $month) {
+                            if ($chkmonth !== $month) {
                                 $addmonth = false;
                                 $strtotime = 'first day of ' . $arrMonth[$month] . ' ' . $year;
                                 $objEvents->startTime = strtotime($strtotime . ' ' . $eventStartTime, $startTime);
@@ -464,12 +462,12 @@ class EventsExt extends Events
             }
         }
 
-        if ($arrHolidays != null) {
+        if ($arrHolidays !== null) {
             // run thru all holiday calendars
             foreach ($arrHolidays as $id) {
                 $objAE = $this->Database->prepare("SELECT allowEvents FROM tl_calendar WHERE id = ?")
                     ->limit(1)->execute($id);
-                $allowEvents = ($objAE->allowEvents == 1) ? true : false;
+                $allowEvents = ($objAE->allowEvents === 1) ? true : false;
 
                 $strUrl = $this->strUrl;
                 $objCalendar = \CalendarModel::findByPk($id);
@@ -514,7 +512,7 @@ class EventsExt extends Events
                                         unset($this->arrEvents[$key][$k1][$k2]);
                                     }
                                 } else {
-                                    if ($isHolidayEvent === false && !$event['showOnFreeDay'] == 1) {
+                                    if ($isHolidayEvent === false && !$event['showOnFreeDay'] === 1) {
                                         unset($this->arrEvents[$key][$k1][$k2]);
                                     }
                                 }

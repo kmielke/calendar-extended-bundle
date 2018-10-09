@@ -46,7 +46,7 @@ class ModuleCalendar extends EventsExt
      */
     public function generate()
     {
-        if (TL_MODE == 'BE') {
+        if (TL_MODE === 'BE') {
             /** @var \BackendTemplate|object $objTemplate */
             $objTemplate = new \BackendTemplate('be_wildcard');
 
@@ -158,8 +158,8 @@ class ModuleCalendar extends EventsExt
         $objTemplate->intMonth = $intMonth;
 
         // Previous month
-        $prevMonth = ($intMonth == 1) ? 12 : ($intMonth - 1);
-        $prevYear = ($intMonth == 1) ? ($intYear - 1) : $intYear;
+        $prevMonth = ($intMonth === 1) ? 12 : ($intMonth - 1);
+        $prevYear = ($intMonth === 1) ? ($intYear - 1) : $intYear;
         $lblPrevious = $GLOBALS['TL_LANG']['MONTHS'][($prevMonth - 1)] . ' ' . $prevYear;
         $intPrevYm = intval($prevYear . str_pad($prevMonth, 2, 0, STR_PAD_LEFT));
 
@@ -176,8 +176,8 @@ class ModuleCalendar extends EventsExt
         $objTemplate->current = $GLOBALS['TL_LANG']['MONTHS'][(date('m', $this->Date->tstamp) - 1)] . ' ' . date('Y', $this->Date->tstamp);
 
         // Next month
-        $nextMonth = ($intMonth == 12) ? 1 : ($intMonth + 1);
-        $nextYear = ($intMonth == 12) ? ($intYear + 1) : $intYear;
+        $nextMonth = ($intMonth === 12) ? 1 : ($intMonth + 1);
+        $nextYear = ($intMonth === 12) ? ($intYear + 1) : $intYear;
         $lblNext = $GLOBALS['TL_LANG']['MONTHS'][($nextMonth - 1)] . ' ' . $nextYear;
         $intNextYm = $nextYear . str_pad($nextMonth, 2, 0, STR_PAD_LEFT);
 
@@ -216,13 +216,13 @@ class ModuleCalendar extends EventsExt
             $strClass = '';
             $intCurrentDay = ($i + $this->cal_startDay) % 7;
 
-            if ($i == 0) {
+            if ($i === 0) {
                 $strClass .= ' col_first';
-            } elseif ($i == 6) {
+            } elseif ($i === 6) {
                 $strClass .= ' col_last';
             }
 
-            if ($intCurrentDay == 0 || $intCurrentDay == 6) {
+            if ($intCurrentDay === 0 || $intCurrentDay === 6) {
                 $strClass .= ' weekend';
             }
 
@@ -264,12 +264,12 @@ class ModuleCalendar extends EventsExt
             $intCurrentDay = ($i + $this->cal_startDay) % 7;
 
             $strWeekClass = 'week_' . $intWeek;
-            $strWeekClass .= ($intWeek == 0) ? ' first' : '';
-            $strWeekClass .= ($intWeek == ($intNumberOfRows - 1)) ? ' last' : '';
+            $strWeekClass .= ($intWeek === 0) ? ' first' : '';
+            $strWeekClass .= ($intWeek === ($intNumberOfRows - 1)) ? ' last' : '';
 
             $strClass = ($intCurrentDay < 2) ? ' weekend' : '';
-            $strClass .= ($i == 1 || $i == 8 || $i == 15 || $i == 22 || $i == 29 || $i == 36) ? ' col_first' : '';
-            $strClass .= ($i == 7 || $i == 14 || $i == 21 || $i == 28 || $i == 35 || $i == 42) ? ' col_last' : '';
+            $strClass .= ($i === 1 || $i === 8 || $i === 15 || $i === 22 || $i === 29 || $i === 36) ? ' col_first' : '';
+            $strClass .= ($i === 7 || $i === 14 || $i === 21 || $i === 28 || $i === 35 || $i === 42) ? ' col_last' : '';
 
             // Empty cell
             if ($intDay < 1 || $intDay > $intDaysInMonth) {
@@ -281,12 +281,12 @@ class ModuleCalendar extends EventsExt
             }
 
             $intKey = date('Ym', $this->Date->tstamp) . ((strlen($intDay) < 2) ? '0' . $intDay : $intDay);
-            $strClass .= ((int)$intKey == (int)date('Ymd')) ? ' today' : '';
+            $strClass .= ((int)$intKey === (int)date('Ymd')) ? ' today' : '';
             $strClass .= ((int)$intKey < (int)date('Ymd')) ? ' bygone' : '';
             $strClass .= ((int)$intKey > (int)date('Ymd')) ? ' upcomming' : '';
 
             // Mark the selected day (see #1784)
-            if ($intKey == \Input::get('day')) {
+            if ($intKey === \Input::get('day')) {
                 $strClass .= ' selected';
             }
 
@@ -318,11 +318,11 @@ class ModuleCalendar extends EventsExt
 
             $arrDays[$strWeekClass][$i]['label'] = $intDay;
             $arrDays[$strWeekClass][$i]['class'] = 'days active' . $strClass;
-//            if (count($arrEvents) > 0) {
+            if (count($arrEvents) > 0) {
                 $arrDays[$strWeekClass][$i]['href'] = $this->strLink . (\Config::get('disableAlias') ? '&amp;' : '?') . 'day=' . $intKey;
                 $arrDays[$strWeekClass][$i]['title'] = sprintf(specialchars($GLOBALS['TL_LANG']['MSC']['cal_events']), count($arrEvents));
                 $arrDays[$strWeekClass][$i]['events'] = $arrEvents;
-//            }
+            }
         }
 
         return $arrDays;

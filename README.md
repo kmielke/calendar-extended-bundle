@@ -25,7 +25,7 @@ composer require kmielke/calendar-extended-bundle
 License
 -------
 
-calendar-extended-bundle is licensed under the terms of the LGPLv3.
+calendar-extended-bundle is licensed under the terms of MIT.
 
 
 Getting support

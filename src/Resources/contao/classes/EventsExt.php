@@ -417,17 +417,15 @@ class EventsExt extends Events
                             // new start time
                             $strNewDate = $fixedDate['new_repeat'];
                             $strNewTime = (strlen($fixedDate['new_start']) ? $fixedDate['new_start'] : $orgDateStart->time);
-                            //$newDateStart = new Date(trim($strNewDate . ' ' . $strNewTime), Date::getNumericDatimFormat());
-                            $newDateStart = new Date(trim($strNewDate . ' ' . $strNewTime), \Config::get('datimFormat'));
-
+                            $newDateStart = new Date(strtotime($strNewDate . ' ' . $strNewTime), \Config::get('datimFormat'));
                             $objEvents->startTime = $newDateStart->timestamp;
                             $dateNextStart = date('Ymd', $objEvents->startTime);
 
                             // new end time
                             $strNewTime = (strlen($fixedDate['new_end']) ? $fixedDate['new_end'] : $orgDateEnd->time);
-                            //$newDateEnd = new Date(trim($strNewDate . ' ' . $strNewTime), Date::getNumericDatimFormat());
                             $newDateEnd = new Date(trim($strNewDate . ' ' . $strNewTime), \Config::get('datimFormat'));
-                            // Use the multi-day span of the event
+
+                            // use the multi-day span of the event
                             if ($orgDateSpan > 0) {
                                 $newDateEnd = new Date(strtotime('+' . $orgDateSpan . ' days', $newDateEnd->timestamp), Date::getNumericDatimFormat());
                             }
@@ -443,7 +441,7 @@ class EventsExt extends Events
 
                             $this->addEvent($objEvents, $objEvents->startTime, $objEvents->endTime, $strUrl, $intStart, $intEnd, $id);
 
-                            // Restore the original values
+                            // restore the original values
                             $objEvents->startTime = $orgDateStart->timestamp;
                             $objEvents->endTime = $orgDateEnd->timestamp;
 
@@ -456,7 +454,7 @@ class EventsExt extends Events
                     unset($objEvents->moveReason);
                 }
 
-                // Reset times
+                // reset times
                 $objEvents->startTime = $initStartTime;
                 $objEvents->endTime = $initEndTime;
             }

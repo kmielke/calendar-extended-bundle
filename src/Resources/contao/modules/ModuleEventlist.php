@@ -206,6 +206,12 @@ class ModuleEventlist extends EventsExt
         // we have to check if we have to show recurrences and pass it to the getAllEventsExt function...
         $showRecurrences = ((int)$this->showRecurrences === 1) ? false : true;
 
+        if ('FE' === TL_MODE && true === FE_USER_LOGGED_IN) {
+            // calendar-extended-bundel assets
+            $assets_path = 'bundles/calendarextended/js';
+            $GLOBALS['TL_JAVASCRIPT'][] = $assets_path . '/event-register.js';
+        }
+
         // Get all events
         $arrAllEvents = $this->getAllEventsExt($this->cal_calendar, $strBegin, $strEnd, array($this->cal_holiday, $showRecurrences));
         $sort = ($this->cal_order == 'descending') ? 'krsort' : 'ksort';

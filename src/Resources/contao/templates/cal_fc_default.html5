@@ -2,7 +2,7 @@
 
 <div id="calendar" style="margin:auto 25px;"></div>
 
-<script>
+<script type="application/javascript">
 
     /**
      * updateEventTimes()
@@ -37,14 +37,14 @@
             },
             datatype: 'json',
             async: false,
-            error: function() {
+            error: function () {
                 alert('error while updating event!');
                 revertFunc();
             }
         });
     }
 
-    $(document).ready(function() {
+    $(document).ready(function () {
 
         /**
          * Init the fullcalendar
@@ -74,12 +74,12 @@
             // Fullcalendar events
             eventSources: [{
                 url: '<?php echo $this->url; ?>',
-                type:  'POST',
-                data:  {
+                type: 'POST',
+                data: {
                     type: 'fetchEvents',
                     REQUEST_TOKEN: "<?php echo REQUEST_TOKEN; ?>",
                 },
-                error: function() {
+                error: function () {
                     alert('<?php echo $this->fetch_error; ?>');
                 }
             }],
@@ -95,7 +95,7 @@
             },
 
             // Called whenever a event is moved
-            eventDrop: function(event, delta, revertFunc) {
+            eventDrop: function (event, delta, revertFunc) {
                 if (!confirm('<?php echo $this->confirm_drop; ?>')) {
                     revertFunc();
                 }
@@ -103,7 +103,7 @@
             },
 
             // Called whenever a event is resized
-            eventResize: function(event, delta, revertFunc) {
+            eventResize: function (event, delta, revertFunc) {
                 if (!confirm('<?php echo $this->confirm_resize; ?>')) {
                     revertFunc();
                 }

@@ -351,6 +351,11 @@ class ModuleEventReader extends EventsExt
         // Formular für Anmeldung, wenn contao-leads installiert ist...
         $objTemplate->regform = null;
 
+        // Event und Formular ID
+        $eid = (int)$objEvent->id;
+        $fid = (int)$objEvent->regform;
+
+        // Prüfen, ob sich ein angemeldeter Benutzer schon registriert hat
         $showToUser = true;
         if (FE_USER_LOGGED_IN) {
             $this->import('FrontendUser', 'User');
@@ -359,14 +364,11 @@ class ModuleEventReader extends EventsExt
         }
 
         if (class_exists('leads\leads') && $objEvent->useRegistration && $showToUser) {
-//        if (class_exists('leads\leads') && $objEvent->useRegistration) {
             // ... und im Event ein Formular ausgewählt wurde
             if ($objEvent->regform) {
                 $values = deserialize($objEvent->regperson);
 
                 // Anmeldungen ermittlen und anzeigen
-                $eid = (int)$objEvent->id;
-                $fid = (int)$objEvent->regform;
                 $regCount = CalendarLeadsModel::regCountByFormEvent($fid, $eid);
 
                 // Werte setzen
@@ -558,4 +560,5 @@ class ModuleEventReader extends EventsExt
 
         $this->Comments->addCommentsToTemplate($this->Template, $objConfig, 'tl_calendar_events', $objEvent->id, $arrNotifies);
     }
+
 }

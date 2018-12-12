@@ -318,7 +318,7 @@ class ModuleFullcalendar extends EventsExt
 
                     // We take the "show from" time or the "event start" time to check the display duration limit
                     $displayStart = ($event['start']) ? $event['start'] : $event['startTime'];
-                    if (strlen($this->displayDuration) > 0) {
+                    if ($this->displayDuration > 0) {
                         $displayStop = strtotime($this->displayDuration, $displayStart);
                         if ($displayStop < $currTime) {
                             continue;

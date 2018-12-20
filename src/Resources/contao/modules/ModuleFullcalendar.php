@@ -209,14 +209,14 @@ class ModuleFullcalendar extends EventsExt
             // font-awesome 4.7.0
             $assets_fa = '/font-awesome-4.7.0';
 
+            // CSS files
+            $GLOBALS['TL_CSS'][] = $assets_path . $assets_fa . '/css/font-awesome.min.css';
+            $GLOBALS['TL_CSS'][] = $assets_path . $assets_fc . '/fullcalendar.min.css';
+
             // Load jQuery if not active
             if ($objPage->hasJQuery !== '1') {
                 $GLOBALS['TL_JAVASCRIPT'][] = $assets_path . $assets_fc . '/lib/jquery.min.js|static';
             }
-
-            // CSS files
-            $GLOBALS['TL_CSS'][] = $assets_path . $assets_fa . '/css/font-awesome.min.css';
-            $GLOBALS['TL_CSS'][] = $assets_path . $assets_fc . '/fullcalendar.min.css';
 
             // JS files
             $GLOBALS['TL_JAVASCRIPT'][] = $assets_path . $assets_fc . '/lib/moment.min.js';
@@ -267,6 +267,7 @@ class ModuleFullcalendar extends EventsExt
      */
     protected function fetchEvents()
     {
+        // Get start and end from fullcalendar
         $intStart = (\Input::post('start')) ? strtotime(\Input::post('start')) : $this->intStart;
         $intEnd = (\Input::post('end')) ? strtotime(\Input::post('end')) : $this->intEnd;
 
@@ -382,15 +383,21 @@ class ModuleFullcalendar extends EventsExt
                             'title' => $title,
                             'start' => $event['datetime_start'],
                             'end' => $event['datetime_end'],
-                            'description' => $event['teaser'],
                             'allDay' => $allDay,
                             'overlap' => false,
                             'url' => $event['href'],
                             'editable' => $editable,
-                            'icon' => $icon,
-                            'backgroundColor' => $bgstyle,
-                            'textColor' => $fgstyle
+                            'icon' => $icon
                         );
+                        if ($event['teaser']) {
+                            $json_events['description'] = $event['teaser'];
+                        }
+                        if ($bgstyle) {
+                            $json_events['backgroundColor'] = $bgstyle;
+                        }
+                        if ($fgstyle) {
+                            $json_events['textColor'] = $fgstyle;
+                        }
                     }
 
                     // Remember if multi day event

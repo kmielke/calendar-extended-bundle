@@ -84,6 +84,14 @@
                 }
             }],
 
+            // adjust contao end time
+            eventDataTransform: function(event) {
+                if (event.allDay) {
+                    event.end = moment(event.end).add(1, 'days')
+                }
+                return event;
+            },
+
             // Render the font-awesome icon if exists
             eventRender: function (event, element, view) {
                 if (event.editable) {

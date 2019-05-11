@@ -321,7 +321,7 @@ class ModuleFullcalendar extends EventsExt
                     $displayStart = ($event['start']) ? $event['start'] : $event['startTime'];
                     if (strlen($this->displayDuration) > 0) {
                         $displayStop = strtotime($this->displayDuration, $displayStart);
-                        if ($displayStop < $currTime) {
+                        if ($displayStop !== false && $displayStop < $currTime) {
                             continue;
                         }
                     }

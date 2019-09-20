@@ -78,7 +78,7 @@ class ModuleEventMenu extends ModuleCalendar
         $arrData = array();
 
         /** @var \FrontendTemplate|object $objTemplate */
-        $objTemplate = new \FrontendTemplate('mod_eventmenu_year');
+        $objTemplate = new \FrontendTemplate('mod_eventmenu');
 
         $this->Template = $objTemplate;
         $arrAllEvents = $this->getAllEventsExt($this->cal_calendar, 0, 2145913200, array($this->cal_holiday));

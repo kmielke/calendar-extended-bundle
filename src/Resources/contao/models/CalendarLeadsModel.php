@@ -30,6 +30,35 @@ class CalendarLeadsModel extends \Model
     /**
      * @param $fid int formularid
      * @param $eid int eventid
+     * @param $email string email
+     *
+     * @return boolean
+     */
+    public static function regCheckByFormEventMail($fid, $eid, $email)
+    {
+        // SQL bauen
+        $arrsql[] = 'select ld3.value as email';
+        $arrsql[] = 'from ' . static::$strTableMaster . ' lm';
+        $arrsql[] = 'left join ' . static::$strTableDetail . ' ld1 on ld1.pid = lm.id';
+        $arrsql[] = 'left join ' . static::$strTableDetail . ' ld2 on ld2.pid = ld1.pid';
+        $arrsql[] = 'left join ' . static::$strTableDetail . ' ld3 on ld3.pid = ld2.pid';
+        $arrsql[] = 'where lm.form_id = ?';
+        $arrsql[] = 'and ld1.name = "eventid" and ld1.value = ?';
+        $arrsql[] = 'and ld2.name = "published" and ld2.value = 1';
+        $arrsql[] = 'and ld3.name = "email" and ld3.value = ?;';
+        $sql = implode(' ', $arrsql);
+
+        // und ausführen
+        $objResult = \Database::getInstance()->prepare($sql)->execute($fid, $eid, $email);
+        $found = ($objResult->email === $email) ? false : true;
+
+        return $found;
+    }
+
+
+    /**
+     * @param $fid int formularid
+     * @param $eid int eventid
      *
      * @return \Database\Result|object
      */

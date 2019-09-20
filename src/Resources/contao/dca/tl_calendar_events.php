@@ -417,6 +417,7 @@ $GLOBALS['TL_DCA']['tl_calendar_events']['fields']['repeatEnd'] = array
 );
 
 use Kmielke\CalendarExtendedBundle\CalendarLeadsModel;
+use Kmielke\CalendarExtendedBundle\CalendarEventsModelExt;
 
 /**
  * Class tl_calendar_events_ext

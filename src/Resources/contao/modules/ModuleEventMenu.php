@@ -111,7 +111,8 @@ class ModuleEventMenu extends ModuleCalendar
         }
 
         $this->Template->items = $arrItems;
-        $this->Template->showQuantity = ($this->cal_showQuantity != '') ? true : false;
+        $this->Template->showQuantity = ($this->cal_showQuantity !== '') ? true : false;
+        $this->Template->yearly = true;
     }
 
 

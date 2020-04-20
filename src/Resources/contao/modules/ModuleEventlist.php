@@ -308,7 +308,7 @@ class ModuleEventlist extends EventsExt
                                 $event['reginfo']['maxi'] = $values[0]['maxi'];
                                 $event['reginfo']['curr'] = $values[0]['curr'];
                                 $event['reginfo']['free'] = $values[0]['free'];
-                                $event['class'] = ($useMaxi && ($values[0]['free'] > 0)) ? ' regopen' : ' regclose';
+                                $event['class'] .= ($useMaxi && ($values[0]['free'] > 0)) ? ' regopen' : ' regclose';
                                 unset($arrsql);
                             }
                             unset($values);

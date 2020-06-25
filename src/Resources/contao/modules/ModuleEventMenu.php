@@ -77,8 +77,14 @@ class ModuleEventMenu extends ModuleCalendar
     {
         $arrData = array();
 
+        if ($this->customTpl && TL_MODE == 'FE') { 
+            $strTemplate = $this->customTpl; 
+        } else {
+            $strTemplate = 'mod_eventmenu';
+        }
+
         /** @var \FrontendTemplate|object $objTemplate */
-        $objTemplate = new \FrontendTemplate('mod_eventmenu');
+        $objTemplate = new \FrontendTemplate($strTemplate);
 
         $this->Template = $objTemplate;
         $arrAllEvents = $this->getAllEventsExt($this->cal_calendar, 0, 2145913200, array($this->cal_holiday));

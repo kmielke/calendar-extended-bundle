@@ -420,7 +420,7 @@ class ModuleEventlist extends EventsExt
         if ($this->imgSize != '') {
             $size = deserialize($this->imgSize);
 
-            if ($size[0] > 0 || $size[1] > 0 || is_numeric($size[2])) {
+            if ($size[0] > 0 || $size[1] > 0 || is_numeric($size[2]) || ($size[2][0] ?? null) === '_') {
                 $imgSize = $this->imgSize;
             }
         }

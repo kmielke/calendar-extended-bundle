@@ -36,12 +36,48 @@ if (class_exists('leads\leads')) {
         '{location_legend},location_name,location_str,location_plz,location_ort;{contact_legend},location_link,location_contact,location_mail;{regform_legend},useRegistration;{recurring_legend},recurring;{recurring_legend_ext},recurringExt;{repeatFixedDates_legend},repeatFixedDates;{exception_legend},useExceptions;',
         $GLOBALS['TL_DCA']['tl_calendar_events']['palettes']['default']
     );
+    $GLOBALS['TL_DCA']['tl_calendar_events']['palettes']['article'] = str_replace
+    (
+        '{recurring_legend},recurring;',
+        '{location_legend},location_name,location_str,location_plz,location_ort;{contact_legend},location_link,location_contact,location_mail;{regform_legend},useRegistration;{recurring_legend},recurring;{recurring_legend_ext},recurringExt;{repeatFixedDates_legend},repeatFixedDates;{exception_legend},useExceptions;',
+        $GLOBALS['TL_DCA']['tl_calendar_events']['palettes']['article']
+    );
+    $GLOBALS['TL_DCA']['tl_calendar_events']['palettes']['internal'] = str_replace
+    (
+        '{recurring_legend},recurring;',
+        '{location_legend},location_name,location_str,location_plz,location_ort;{contact_legend},location_link,location_contact,location_mail;{regform_legend},useRegistration;{recurring_legend},recurring;{recurring_legend_ext},recurringExt;{repeatFixedDates_legend},repeatFixedDates;{exception_legend},useExceptions;',
+        $GLOBALS['TL_DCA']['tl_calendar_events']['palettes']['internal']
+    );
+    $GLOBALS['TL_DCA']['tl_calendar_events']['palettes']['external'] = str_replace
+    (
+        '{recurring_legend},recurring;',
+        '{location_legend},location_name,location_str,location_plz,location_ort;{contact_legend},location_link,location_contact,location_mail;{regform_legend},useRegistration;{recurring_legend},recurring;{recurring_legend_ext},recurringExt;{repeatFixedDates_legend},repeatFixedDates;{exception_legend},useExceptions;',
+        $GLOBALS['TL_DCA']['tl_calendar_events']['palettes']['external']
+    );
 } else {
     $GLOBALS['TL_DCA']['tl_calendar_events']['palettes']['default'] = str_replace
     (
         '{recurring_legend},recurring;',
         '{location_legend},location_name,location_str,location_plz,location_ort;{contact_legend},location_link,location_contact,location_mail;{recurring_legend},recurring;{recurring_legend_ext},recurringExt;{repeatFixedDates_legend},repeatFixedDates;{exception_legend},useExceptions;',
         $GLOBALS['TL_DCA']['tl_calendar_events']['palettes']['default']
+    );
+    $GLOBALS['TL_DCA']['tl_calendar_events']['palettes']['article'] = str_replace
+    (
+        '{recurring_legend},recurring;',
+        '{location_legend},location_name,location_str,location_plz,location_ort;{contact_legend},location_link,location_contact,location_mail;{recurring_legend},recurring;{recurring_legend_ext},recurringExt;{repeatFixedDates_legend},repeatFixedDates;{exception_legend},useExceptions;',
+        $GLOBALS['TL_DCA']['tl_calendar_events']['palettes']['article']
+    );
+    $GLOBALS['TL_DCA']['tl_calendar_events']['palettes']['internal'] = str_replace
+    (
+        '{recurring_legend},recurring;',
+        '{location_legend},location_name,location_str,location_plz,location_ort;{contact_legend},location_link,location_contact,location_mail;{recurring_legend},recurring;{recurring_legend_ext},recurringExt;{repeatFixedDates_legend},repeatFixedDates;{exception_legend},useExceptions;',
+        $GLOBALS['TL_DCA']['tl_calendar_events']['palettes']['internal']
+    );
+    $GLOBALS['TL_DCA']['tl_calendar_events']['palettes']['external'] = str_replace
+    (
+        '{recurring_legend},recurring;',
+        '{location_legend},location_name,location_str,location_plz,location_ort;{contact_legend},location_link,location_contact,location_mail;{recurring_legend},recurring;{recurring_legend_ext},recurringExt;{repeatFixedDates_legend},repeatFixedDates;{exception_legend},useExceptions;',
+        $GLOBALS['TL_DCA']['tl_calendar_events']['palettes']['external']
     );
 }
 

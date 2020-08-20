@@ -23,5 +23,5 @@ $GLOBALS['TL_LANG']['MOD'][''] = array('', '');
  */
 $GLOBALS['TL_LANG']['FMD']['timetable']	        = array('Stundenplan', 'Fügt der Seite einen Kalender Stundenplan hinzu.');
 $GLOBALS['TL_LANG']['FMD']['yearview']	        = array('Jahresübersicht', 'Fügt der Seite einen Kalender Jahresübersicht hinzu.');
-$GLOBALS['TL_LANG']['FMD']['evr_registration']  = array('Bestätigung Anmeldung/Abmeldung', 'Fügt der Seite ein Modul zur Bestätigung einer Anmeldung/Abmeldnug hinzu.');
+$GLOBALS['TL_LANG']['FMD']['evr_registration']  = array('Bestätigung Anmeldung/Abmeldung', 'Fügt der Seite ein Modul zur Bestätigung einer Anmeldung/Abmeldung hinzu.');
 $GLOBALS['TL_LANG']['FMD']['fullcalendar']      = array('Fullcalendar', 'Fügt der Seite ein Fullcalendar (jQuery Plugin) hinzu.');

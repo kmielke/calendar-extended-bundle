@@ -332,7 +332,7 @@ class ModuleEventReader extends EventsExt
     }
 
     /** @var \FrontendTemplate|object $objTemplate */
-    $objTemplate = new \FrontendTemplate($this->cal_template);
+    $objTemplate = new \FrontendTemplate($this->cal_template ?: 'event_full');
     $objTemplate->setData($objEvent->row());
 
     $objTemplate->date = $strDate;

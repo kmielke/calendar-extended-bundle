@@ -436,7 +436,7 @@ class ModuleEventlist extends EventsExt
             }
 
             /** @var \FrontendTemplate|object $objTemplate */
-            $objTemplate = new \FrontendTemplate($this->cal_template);
+            $objTemplate = new \FrontendTemplate($this->cal_template ?: 'event_list');
             $objTemplate->setData($event);
 
             // Month header

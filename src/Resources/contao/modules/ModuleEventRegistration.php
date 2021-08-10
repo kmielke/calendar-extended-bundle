@@ -115,7 +115,7 @@ class ModuleEventRegistration extends \Module
                 $arrTokens = array();
                 $objResult = CalendarLeadsModel::findByLeadEventMail($lead_id, $event_id, $email);
 
-                if ($objResult !== null) {
+                if ($objResult !== false) {
                     // zuerst den entsprechenden Datensatz updaten...
                     $published = $this->regtype;
                     $result = CalendarLeadsModel::updateByPid($objResult->pid, $published);

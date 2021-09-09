@@ -703,7 +703,8 @@ class tl_calendar_events_ext extends \Backend
                 );
                 $maxRepeatEnd[] = $new_fix_end_date;
             }
-            $arrSet['repeatFixedDates'] = $arrayFixedDates;
+            // PW: keep custom sorting
+            //$arrSet['repeatFixedDates'] = $arrayFixedDates;
         } else {
             $arrSet['repeatFixedDates'] = null;
         }

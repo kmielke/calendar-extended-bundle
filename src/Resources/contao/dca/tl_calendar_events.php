@@ -619,24 +619,26 @@ class tl_calendar_events_ext extends \Backend
         $maxELCount = 250;
 
         $arrSet['weekday'] = (int)date("w", $dc->activeRecord->startDate);
-        $arrSet['startTime'] = $dc->activeRecord->startDate;
-        $arrSet['endTime'] = $dc->activeRecord->startDate;
+        $arrSet['startTime'] = (int)$dc->activeRecord->startDate;
+        $arrSet['endTime'] = (int)$dc->activeRecord->startDate;
 
         // Set end date
         if (strlen($dc->activeRecord->endDate)) {
             if ($dc->activeRecord->endDate > $dc->activeRecord->startDate) {
-                $arrSet['endDate'] = $dc->activeRecord->endDate;
-                $arrSet['endTime'] = $dc->activeRecord->endDate;
+                $arrSet['endDate'] = (int)$dc->activeRecord->endDate;
+                $arrSet['endTime'] = (int)$dc->activeRecord->endDate;
             } else {
-                $arrSet['endDate'] = $dc->activeRecord->startDate;
-                $arrSet['endTime'] = $dc->activeRecord->startDate;
+                $arrSet['endDate'] = (int)$dc->activeRecord->startDate;
+                $arrSet['endTime'] = (int)$dc->activeRecord->startDate;
             }
         }
 
         // Add time
         if ($dc->activeRecord->addTime) {
             $arrSet['startTime'] = strtotime(date('d.m.Y', $arrSet['startTime']) . ' ' . date('H:i:s', $dc->activeRecord->startTime));
-            $arrSet['endTime'] = strtotime(date('d.m.Y', $arrSet['endTime']) . ' ' . date('H:i:s', $dc->activeRecord->endTime));
+            if (!$dc->activeRecord->ignoreEndTime) {
+                $arrSet['endTime'] = strtotime(date('d.m.Y', $arrSet['endTime']) . ' ' . date('H:i:s', $dc->activeRecord->endTime));
+            }
         }
 
         // Set endtime to starttime always...
@@ -701,7 +703,8 @@ class tl_calendar_events_ext extends \Backend
                 );
                 $maxRepeatEnd[] = $new_fix_end_date;
             }
-            $arrSet['repeatFixedDates'] = $arrayFixedDates;
+            // PW: keep custom sorting
+            //$arrSet['repeatFixedDates'] = $arrayFixedDates;
         } else {
             $arrSet['repeatFixedDates'] = null;
         }
@@ -977,15 +980,16 @@ class tl_calendar_events_ext extends \Backend
                     }
 
                     $row['new_start'] = ($row['new_start']) ? $row['new_start'] : date('H:i', $dc->activeRecord->startTime); #'00:00';
-                    $row['new_end'] = ($row['new_end']) ? $row['new_end'] : date('H:i', $dc->activeRecord->endTime); #'23:59';
                     // Set endtime to starttime always...
                     if ($dc->activeRecord->ignoreEndTime) {
                         $row['new_end'] = '';
+                    } else {
+                        $row['new_end'] = ($row['new_end']) ? $row['new_end'] : date('H:i', $dc->activeRecord->endTime); #'23:59';
                     }
 
                     // now we have to find all dates matching the exception rules...
-                    $dateFrom = strtotime($row['exception'] . ' ' . $row['new_start']);
-                    $dateTo = strtotime($row['exceptionTo'] . ' ' . $row['new_end']);
+                    $dateFrom = strtotime(date('d.m.Y', $row['exception']) . ' ' . $row['new_start']);
+                    $dateTo = strtotime(date('d.m.Y', $row['exceptionTo']) . ' ' . $row['new_end']);
                     unset($row['exceptionTo']);
 
                     foreach ($repeatDates as $k => $repeatDate) {
@@ -1011,7 +1015,10 @@ class tl_calendar_events_ext extends \Backend
                     }
 
                     $row['new_start'] = ($row['new_start']) ? $row['new_start'] : date('H:i', $dc->activeRecord->startTime); #'00:00';
-                    $row['new_end'] = ($row['new_end']) ? $row['new_end'] : date('H:i', $dc->activeRecord->endTime); #'23:59';
+                    
+                    if (!$dc->activeRecord->ignoreEndTime) {
+                        $row['new_end'] = ($row['new_end']) ? $row['new_end'] : date('H:i', $dc->activeRecord->endTime); #'23:59';
+                    }
                     $row['exception_date'] = date('d.m.Y H:i', $row['exception']);
 
                     $dateToFind = strtotime(date("d.m.Y", $row['exception']) . ' ' . date("H:i", $dc->activeRecord->startTime));
@@ -1287,13 +1294,13 @@ class tl_calendar_events_ext extends \Backend
                 'label' => &$GLOBALS['TL_LANG']['tl_calendar_events']['exceptionFr'],
                 'exclude' => true,
                 'inputType' => 'text',
-                'eval' => array('rgxp' => 'date', 'doNotCopy' => true, 'style' => 'width:60px', 'datepicker' => true, 'tl_class' => 'wizard')
+                'eval' => array('rgxp' => 'date', 'doNotCopy' => true, 'style' => 'width:100px', 'datepicker' => true, 'tl_class' => 'wizard')
             );
             $secondField = array(
                 'label' => &$GLOBALS['TL_LANG']['tl_calendar_events']['exceptionTo'],
                 'exclude' => true,
                 'inputType' => 'text',
-                'eval' => array('rgxp' => 'date', 'doNotCopy' => true, 'style' => 'width:60px', 'datepicker' => true, 'tl_class' => 'wizard')
+                'eval' => array('rgxp' => 'date', 'doNotCopy' => true, 'style' => 'width:100px', 'datepicker' => true, 'tl_class' => 'wizard')
             );
             $columnFields['reason'] = array
             (

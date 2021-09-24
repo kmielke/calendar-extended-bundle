@@ -1,3 +1,1 @@
-$(function() {
-    console.log( "ready!" );
-});
+// Platz für eigenen JS Code 

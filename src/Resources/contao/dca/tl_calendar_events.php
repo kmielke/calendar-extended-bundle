@@ -988,8 +988,8 @@ class tl_calendar_events_ext extends \Backend
                     }
 
                     // now we have to find all dates matching the exception rules...
-                    $dateFrom = strtotime(date('d.m.Y', $row['exception']) . ' ' . $row['new_start']);
-                    $dateTo = strtotime(date('d.m.Y', $row['exceptionTo']) . ' ' . $row['new_end']);
+                    $dateFrom = strtotime(date('Y-m-d', $row['exception']) . ' ' . $row['new_start']);
+                    $dateTo = strtotime(date('Y-m-d', $row['exceptionTo'] ?: $row['exception']) . ' ' . $row['new_end']);
                     unset($row['exceptionTo']);
 
                     foreach ($repeatDates as $k => $repeatDate) {
@@ -1015,7 +1015,7 @@ class tl_calendar_events_ext extends \Backend
                     }
 
                     $row['new_start'] = ($row['new_start']) ? $row['new_start'] : date('H:i', $dc->activeRecord->startTime); #'00:00';
-                    
+
                     if (!$dc->activeRecord->ignoreEndTime) {
                         $row['new_end'] = ($row['new_end']) ? $row['new_end'] : date('H:i', $dc->activeRecord->endTime); #'23:59';
                     }

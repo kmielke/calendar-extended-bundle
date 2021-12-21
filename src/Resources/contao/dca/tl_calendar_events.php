@@ -1172,6 +1172,7 @@ class tl_calendar_events_ext extends \Backend
     public function listMultiExceptions($var1)
     {
         $columnFields = null;
+        $activeRecord = $var1->activeRecord;
 
         // arrays for the select fields
         $arrSource1 = array();
@@ -1180,8 +1181,17 @@ class tl_calendar_events_ext extends \Backend
         $arrSource4 = array();
 
         if (\Input::get('id')) {
-            if ($var1->activeRecord->repeatDates) {
-                $arrDates = deserialize($var1->activeRecord->repeatDates);
+            // Probably an AJAX request where activeRecord is not available
+            if ($activeRecord === null) {
+                $activeRecord = \Database::getInstance()
+                    ->prepare("SELECT * FROM {$var1->strTable} WHERE id=?")
+                    ->limit(1)
+                    ->execute(\Input::get('id'))
+                ;
+            }
+
+            if ($activeRecord->repeatDates) {
+                $arrDates = deserialize($activeRecord->repeatDates);
                 if (is_array($arrDates)) {
                     if ($var1->id == "repeatExceptions") {
                         // fill array for option date
@@ -1281,7 +1291,7 @@ class tl_calendar_events_ext extends \Backend
         } // exceptions by interval
         elseif ($var1->id == "repeatExceptionsInt") {
             $firstField = array(
-                'label' => $GLOBALS['TL_LANG']['tl_calendar_events']['exceptionInt'] . $GLOBALS['TL_LANG']['DAYS'][$var1->activeRecord->weekday],
+                'label' => $GLOBALS['TL_LANG']['tl_calendar_events']['exceptionInt'] . $GLOBALS['TL_LANG']['DAYS'][$activeRecord->weekday],
                 'exclude' => true,
                 'inputType' => 'select',
                 'options' => array('first', 'second', 'third', 'fourth', 'fifth', 'last'),

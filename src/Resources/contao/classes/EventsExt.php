@@ -96,6 +96,11 @@ class EventsExt extends Events
             }
         }
 
+        $arrArgs = null;
+        if ($blnFeatured !== null) {
+           $arrArgs = array('showFeatured' => $blnFeatured);
+        }
+
         // Used to collect exception list data for events
         $arrEventSkipInfo = array();
 
@@ -110,7 +115,7 @@ class EventsExt extends Events
             }
 
             // Get the events of the current period
-            $objEvents = CalendarEventsModelExt::findCurrentByPid($id, $intStart, $intEnd, array('showFeatured' => $blnFeatured));
+            $objEvents = CalendarEventsModelExt::findCurrentByPid($id, $intStart, $intEnd, $arrArgs);
 
             if ($objEvents === null) {
                 continue;

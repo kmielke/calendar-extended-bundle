@@ -97,6 +97,8 @@ class EventsExt extends Events
         $arrArgs = null;
         if ($blnFeatured !== null) {
            $arrArgs = array('showFeatured' => $blnFeatured);
+        } else {
+           $arrArgs = array();
         }
 
         // Used to collect exception list data for events

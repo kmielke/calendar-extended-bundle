@@ -59,7 +59,7 @@ class EventsExt extends Events
      * @return array
      * @throws \Exception
      */
-    protected function getAllEvents($arrCalendars, $intStart, $intEnd)
+    protected function getAllEvents($arrCalendars, $intStart, $intEnd, $blnFeatured = null)
     {
         return $this->getAllEventsExt($arrCalendars, $intStart, $intEnd, array(null, true));
     }
@@ -75,7 +75,7 @@ class EventsExt extends Events
      * @return array
      * @throws \Exception
      */
-    protected function getAllEventsExt($arrCalendars, $intStart, $intEnd, $arrParam = null)
+    protected function getAllEventsExt($arrCalendars, $intStart, $intEnd, $arrParam = null, $blnFeatured = null)
     {
         # set default values...
         $arrHolidays = null;
@@ -94,6 +94,11 @@ class EventsExt extends Events
             }
         }
 
+        $arrArgs = null;
+        if ($blnFeatured !== null) {
+           $arrArgs = array('showFeatured' => $blnFeatured);
+        }
+
         // Used to collect exception list data for events
         $arrEventSkipInfo = array();
 
@@ -108,7 +113,7 @@ class EventsExt extends Events
             }
 
             // Get the events of the current period
-            $objEvents = CalendarEventsModelExt::findCurrentByPid($id, $intStart, $intEnd);
+            $objEvents = CalendarEventsModelExt::findCurrentByPid($id, $intStart, $intEnd, $arrArgs);
 
             if ($objEvents === null) {
                 continue;

@@ -1,6 +1,8 @@
 Contao 4 LTS Calendar Extension
 ===============================
 
+Fork of https://github.com/kmielke/calendar-extended-bundle
+
 Contao is an Open Source PHP Content Management System for people who want a
 professional website that is easy to maintain. Visit the [project website][1]
 for more information.
@@ -18,7 +20,7 @@ Installation
 Run the following command in your project directory:
 
 ```bash
-composer require kmielke/calendar-extended-bundle
+composer require cgoit/calendar-extended-bundle
 ```
 
 

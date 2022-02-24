@@ -1,5 +1,5 @@
 {
-  "name": "kmielke/calendar-extended-bundle",
+  "name": "cgoit/calendar-extended-bundle",
   "description": "Contao 4 LTS calendar extension bundle. Better recurring events and exceptions.",
   "keywords": [
     "contao",
@@ -16,6 +16,10 @@
     {
       "name": "Kester Mielke",
       "email": "kester.mielke@posteo.de"
+    },
+    {
+      "name": "Carsten Götzinger",
+      "email": "info@cgo-it.de"
     }
   ],
   "require": {

@@ -89,10 +89,10 @@ class ModuleCalendar extends EventsExt
                 list($cssColor, $cssOpacity) = deserialize($objBG->bg_color);
 
                 if (!empty($cssColor)) {
-                    $this->calConf[$cal]['background'] .= 'background-color:#' . $cssColor . ';';
+                   $this->appendElement($this->calConf[$cal], 'background', 'background-color:#' . $cssColor . ';');
                 }
                 if (!empty($cssOpacity)) {
-                    $this->calConf[$cal]['background'] .= 'opacity:' . ($cssOpacity / 100) . ';';
+                   $this->appendElement($this->calConf[$cal], 'background', 'opacity:' . ($cssOpacity / 100) . ';');
                 }
             }
 
@@ -100,10 +100,10 @@ class ModuleCalendar extends EventsExt
                 list($cssColor, $cssOpacity) = deserialize($objBG->fg_color);
 
                 if (!empty($cssColor)) {
-                    $this->calConf[$cal]['foreground'] .= 'color:#' . $cssColor . ';';
+                   $this->appendElement($this->calConf[$cal], 'foreground', 'color:#' . $cssColor . ';');
                 }
                 if (!empty($cssOpacity)) {
-                    $this->calConf[$cal]['foreground'] .= 'opacity:' . ($cssOpacity / 100) . ';';
+                   $this->appendElement($this->calConf[$cal], 'foreground', 'opacity:' . ($cssOpacity / 100) . ';');
                 }
             }
         }
@@ -306,10 +306,10 @@ class ModuleCalendar extends EventsExt
                 foreach ($v as $vv) {
                     $vv['calendar_title'] = $this->calConf[$vv['pid']]['calendar'];
 
-                    if ($this->calConf[$vv['pid']]['background']) {
+                    if (array_key_exists('background', $this->calConf[$vv['pid']]) && $this->calConf[$vv['pid']]['background']) {
                         $vv['bgstyle'] = $this->calConf[$vv['pid']]['background'];
                     }
-                    if ($this->calConf[$vv['pid']]['foreground']) {
+                    if (array_key_exists('foreground', $this->calConf[$vv['pid']]) && $this->calConf[$vv['pid']]['foreground']) {
                         $vv['fgstyle'] = $this->calConf[$vv['pid']]['foreground'];
                     }
                     $arrEvents[] = $vv;
@@ -326,5 +326,13 @@ class ModuleCalendar extends EventsExt
         }
 
         return $arrDays;
+    }
+
+    private function appendElement(&$arr, $key, $val) {
+       if (array_key_exists($key, $arr)) {
+          $arr[$key] .= $val;
+       } else {
+          $arr += [$key => $val];
+       }
     }
 }

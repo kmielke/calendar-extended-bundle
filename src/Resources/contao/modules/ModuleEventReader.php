@@ -512,6 +512,19 @@ class ModuleEventReader extends EventsExt
       $this->addEnclosuresToTemplate($objTemplate, $objEvent->row());
     }
 
+    // schema.org information
+    if (method_exists(\Events::class, 'getSchemaOrgData')) {
+        $objTemplate->getSchemaOrgData = static function () use ($objTemplate, $event): array{
+            $jsonLd = \Events::getSchemaOrgData((new \CalendarEventsModel())->setRow($event));
+
+            if ($objTemplate->addImage && $objTemplate->figure){
+                $jsonLd['image'] = $objTemplate->figure->getSchemaOrgData();
+            }
+
+            return $jsonLd;
+        };
+    }
+
     $this->Template->event = $objTemplate->parse();
 
     // HOOK: comments extension required

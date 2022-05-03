@@ -504,6 +504,20 @@ class ModuleEventlist extends EventsExt
                 $this->addEnclosuresToTemplate($objTemplate, $event);
             }
 
+
+			// schema.org information
+            if (method_exists(\Events::class, 'getSchemaOrgData')) {
+                $objTemplate->getSchemaOrgData = static function () use ($objTemplate, $event): array{
+                    $jsonLd = \Events::getSchemaOrgData((new \CalendarEventsModel())->setRow($event));
+
+                    if ($objTemplate->addImage && $objTemplate->figure){
+                        $jsonLd['image'] = $objTemplate->figure->getSchemaOrgData();
+                    }
+
+                    return $jsonLd;
+                };
+            }
+
             $strEvents .= $objTemplate->parse();
 
             ++$eventCount;

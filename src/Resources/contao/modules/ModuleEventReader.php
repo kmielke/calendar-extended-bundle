@@ -407,10 +407,10 @@ class ModuleEventReader extends EventsExt
             // Einsetzen der aktuell Event ID, damit diese mit dem Formular gespeichert wird.
             $regform = str_replace('input type="number" name="count" ', 'input type="number" name="count" max="' . $values[0]['free'] . '"', $regform);
             $regform = str_replace('value="eventid"', 'value="' . $objEvent->id . '"', $regform);
-            $regform = str_replace('value="eventtitle"', 'value="' . $objEvent->title . '"', $regform);
+            $regform = str_replace('value="eventtitle"', 'value="' . \StringUtil::specialchars($objEvent->title) . '"', $regform);
             $regform = str_replace('value="eventstart"', 'value="' . \Date::parse($objPage->datimFormat, $intStartTime) . '"', $regform);
             $regform = str_replace('value="eventend"', 'value="' . \Date::parse($objPage->datimFormat, $intEndTime) . '"', $regform);
-            $regform = str_replace('value="location_contact"', 'value="' . $objEvent->location_contact . '"', $regform);
+            $regform = str_replace('value="location_contact"', 'value="' . \StringUtil::specialchars($objEvent->location_contact) . '"', $regform);
             $regform = str_replace('value="location_mail"', 'value="' . $objEvent->location_mail . '"', $regform);
             $regform = str_replace('value="published"', 'value="' . $published . '"', $regform);
             $objTemplate->regform = $regform;

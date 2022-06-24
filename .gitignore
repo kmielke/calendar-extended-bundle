@@ -1,6 +1,11 @@
 # IDE
 /.idea/
 
+# local development
+Dockerfile
+docker-compose.yml
+
 # Composer
 composer.phar
 composer.lock
+vendor/

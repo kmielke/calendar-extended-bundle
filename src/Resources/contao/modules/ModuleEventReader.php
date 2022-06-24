@@ -8,14 +8,14 @@
  * @license LGPL-3.0+
  */
 
-namespace Kmielke\CalendarExtendedBundle;
+namespace CgoIt\CalendarExtendedBundle;
 
 use Contao\CoreBundle\Exception\PageNotFoundException;
 use Contao\Environment;
 
-use Kmielke\CalendarExtendedBundle\CalendarEventsModelExt;
-use Kmielke\CalendarExtendedBundle\CalendarLeadsModel;
-use Kmielke\CalendarExtendedBundle\EventsExt;
+use CgoIt\CalendarExtendedBundle\CalendarEventsModelExt;
+use CgoIt\CalendarExtendedBundle\CalendarLeadsModel;
+use CgoIt\CalendarExtendedBundle\EventsExt;
 
 /**
  * Front end module "event reader".

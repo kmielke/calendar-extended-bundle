@@ -456,8 +456,8 @@ $GLOBALS['TL_DCA']['tl_calendar_events']['fields']['repeatEnd'] = array
     'sql' => "int(10) unsigned NOT NULL default '0'"
 );
 
-use Kmielke\CalendarExtendedBundle\CalendarLeadsModel;
-use Kmielke\CalendarExtendedBundle\CalendarEventsModelExt;
+use CgoIt\CalendarExtendedBundle\CalendarLeadsModel;
+use CgoIt\CalendarExtendedBundle\CalendarEventsModelExt;
 
 /**
  * Class tl_calendar_events_ext

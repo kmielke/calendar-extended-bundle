@@ -11,7 +11,7 @@
  * @copyright Kester Mielke 2010-2013
  */
 
-namespace Kmielke\CalendarExtendedBundle;
+namespace CgoIt\CalendarExtendedBundle;
 
 /**
  * Class ModuleEventMenuExt

@@ -15,11 +15,11 @@
 /**
  * Namespace
  */
-namespace Kmielke\CalendarExtendedBundle;
+namespace CgoIt\CalendarExtendedBundle;
 
 use Contao\Date;
 
-use Kmielke\CalendarExtendedBundle\EventsExt;
+use CgoIt\CalendarExtendedBundle\EventsExt;
 
 /**
  * Class ModuleTimeTableExt

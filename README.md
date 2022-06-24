@@ -34,9 +34,9 @@ Getting support
 ---------------
 
 Visit the [support page][2] to learn about the available support options.
-Visit the [documenttion][3] to learn about the extension options. Or view it ob [github][4].
+Visit the [documenttion][3] to learn about the extension options. Or view it on [github][4].
 
 [1]: https://contao.org
 [2]: https://community.contao.org/de/forumdisplay.php?160-calendar_extended
 [3]: http://de.contaowiki.org/Calendar_extended
-[4]: https://github.com/kmielke/calendar-extended-bundle
+[4]: https://github.com/cgoit/calendar-extended-bundle

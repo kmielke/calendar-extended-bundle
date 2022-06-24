@@ -15,14 +15,14 @@
 /**
  * Namespace
  */
-namespace Kmielke\CalendarExtendedBundle;
+namespace CgoIt\CalendarExtendedBundle;
 
 use Contao\Calendar;
 use Contao\CalendarModel;
 use Contao\Date;
 use Contao\Events;
 
-use Kmielke\CalendarExtendedBundle\CalendarEventsModelExt;
+use CgoIt\CalendarExtendedBundle\CalendarEventsModelExt;
 
 /**
  * Class EventExt

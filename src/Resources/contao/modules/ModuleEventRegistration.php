@@ -8,12 +8,12 @@
  * @license LGPL-3.0+
  */
 
-namespace Kmielke\CalendarExtendedBundle;
+namespace CgoIt\CalendarExtendedBundle;
 
 use NotificationCenter\Model\Notification;
 
-use Kmielke\CalendarExtendedBundle\CalendarLeadsModel;
-use Kmielke\CalendarExtendedBundle\CalendarEventsModelExt;
+use CgoIt\CalendarExtendedBundle\CalendarLeadsModel;
+use CgoIt\CalendarExtendedBundle\CalendarEventsModelExt;
 
 /**
  * Class ModuleEventRegistration

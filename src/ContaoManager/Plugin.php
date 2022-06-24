@@ -10,9 +10,9 @@
 
 declare(strict_types = 1);
 
-namespace Kmielke\CalendarExtendedBundle\ContaoManager;
+namespace CgoIt\CalendarExtendedBundle\ContaoManager;
 
-use Kmielke\CalendarExtendedBundle\CalendarExtendedBundle;
+use CgoIt\CalendarExtendedBundle\CalendarExtendedBundle;
 
 use Contao\ManagerPlugin\Bundle\BundlePluginInterface;
 use Contao\ManagerPlugin\Bundle\Config\BundleConfig;

@@ -32,7 +32,7 @@
   },
   "autoload": {
     "psr-4": {
-      "Kmielke\\CalendarExtendedBundle\\": "src/"
+      "CgoIt\\CalendarExtendedBundle\\": "src/"
     },
     "classmap": [
       "src/Resources/contao/"
@@ -45,6 +45,6 @@
     ]
   },
   "extra": {
-    "contao-manager-plugin": "Kmielke\\CalendarExtendedBundle\\ContaoManager\\Plugin"
+    "contao-manager-plugin": "CgoIt\\CalendarExtendedBundle\\ContaoManager\\Plugin"
   }
 }

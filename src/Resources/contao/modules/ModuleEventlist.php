@@ -266,7 +266,7 @@ class ModuleEventlist extends EventsExt
                     $eventStop = ($objEV->stop) ? $objEV->stop : false;
                     unset($objEV);
 
-                    if ($event['show']) {
+                    if ($event['show'] ?? false) {
                         // Remove events outside time scope
                         if ($this->pubTimeRecurrences && ($eventStart && $eventStop)) {
                             // Step 2: get show from/until times
@@ -329,10 +329,10 @@ class ModuleEventlist extends EventsExt
 
                     $event['calendar_title'] = $this->calConf[$event['pid']]['calendar'];
 
-                    if ($this->calConf[$event['pid']]['background']) {
+                    if ($this->calConf[$event['pid']]['background'] ?? false) {
                         $event['bgstyle'] = $this->calConf[$event['pid']]['background'];
                     }
-                    if ($this->calConf[$event['pid']]['foreground']) {
+                    if ($this->calConf[$event['pid']]['foreground'] ?? false) {
                         $event['fgstyle'] = $this->calConf[$event['pid']]['foreground'];
                     }
 

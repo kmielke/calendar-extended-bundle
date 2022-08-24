@@ -516,8 +516,8 @@ class ModuleEventReader extends EventsExt
 
     // schema.org information
     if (method_exists(\Events::class, 'getSchemaOrgData')) {
-        $objTemplate->getSchemaOrgData = static function () use ($objTemplate, $event): array{
-            $jsonLd = \Events::getSchemaOrgData((new \CalendarEventsModel())->setRow($event));
+        $objTemplate->getSchemaOrgData = static function () use ($objTemplate, $objEvent): array{
+            $jsonLd = \Events::getSchemaOrgData($objEvent);
 
             if ($objTemplate->addImage && $objTemplate->figure){
                 $jsonLd['image'] = $objTemplate->figure->getSchemaOrgData();

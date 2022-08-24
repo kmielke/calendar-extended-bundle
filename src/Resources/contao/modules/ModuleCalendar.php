@@ -10,6 +10,8 @@
 
 namespace Kmielke\CalendarExtendedBundle;
 
+use Contao\System;
+
 /**
  * Front end module "calendar".
  *
@@ -115,6 +117,13 @@ class ModuleCalendar extends EventsExt
             /** @var \PageModel $objTarget */
             $this->strLink = $objTarget->getFrontendUrl();
         }
+
+		// Tag the calendars (see #2137)
+		if (System::getContainer()->has('fos_http_cache.http.symfony_response_tagger'))
+		{
+			$responseTagger = System::getContainer()->get('fos_http_cache.http.symfony_response_tagger');
+			$responseTagger->addTags(array_map(static function ($id) { return 'contao.db.tl_calendar.' . $id; }, $this->cal_calendar));
+		}
 
         return parent::generate();
     }

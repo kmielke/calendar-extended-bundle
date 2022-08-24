@@ -13,6 +13,7 @@ namespace Kmielke\CalendarExtendedBundle;
 use Contao\CoreBundle\Exception\PageNotFoundException;
 use Contao\Environment;
 
+use Contao\System;
 use Kmielke\CalendarExtendedBundle\CalendarEventsModelExt;
 use Kmielke\CalendarExtendedBundle\CalendarLeadsModel;
 use Kmielke\CalendarExtendedBundle\EventsExt;
@@ -527,6 +528,13 @@ class ModuleEventReader extends EventsExt
     }
 
     $this->Template->event = $objTemplate->parse();
+
+    // Tag the event (see #2137)
+    if (System::getContainer()->has('fos_http_cache.http.symfony_response_tagger'))
+    {
+      $responseTagger = System::getContainer()->get('fos_http_cache.http.symfony_response_tagger');
+      $responseTagger->addTags(array('contao.db.tl_calendar_events.' . $objEvent->id));
+    }
 
     // HOOK: comments extension required
     if ($objEvent->noComments || !in_array('comments', \ModuleLoader::getActive())) {

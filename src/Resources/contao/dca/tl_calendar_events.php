@@ -33,6 +33,27 @@ $GLOBALS['TL_DCA']['tl_calendar_events']['palettes']['default'] = str_replace
     $GLOBALS['TL_DCA']['tl_calendar_events']['palettes']['default']
 );
 
+$GLOBALS['TL_DCA']['tl_calendar_events']['palettes']['article'] = str_replace
+(
+    'addTime,',
+    'showOnFreeDay,addTime,',
+    $GLOBALS['TL_DCA']['tl_calendar_events']['palettes']['article']
+);
+
+$GLOBALS['TL_DCA']['tl_calendar_events']['palettes']['internal'] = str_replace
+(
+    'addTime,',
+    'showOnFreeDay,addTime,',
+    $GLOBALS['TL_DCA']['tl_calendar_events']['palettes']['internal']
+);
+
+$GLOBALS['TL_DCA']['tl_calendar_events']['palettes']['external'] = str_replace
+(
+    'addTime,',
+    'showOnFreeDay,addTime,',
+    $GLOBALS['TL_DCA']['tl_calendar_events']['palettes']['external']
+);
+
 if (class_exists('leads\leads')) {
     $GLOBALS['TL_DCA']['tl_calendar_events']['palettes']['default'] = str_replace
     (

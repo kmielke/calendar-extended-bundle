@@ -33,6 +33,27 @@ $GLOBALS['TL_DCA']['tl_calendar_events']['palettes']['default'] = str_replace
     $GLOBALS['TL_DCA']['tl_calendar_events']['palettes']['default']
 );
 
+$GLOBALS['TL_DCA']['tl_calendar_events']['palettes']['article'] = str_replace
+(
+    'addTime,',
+    'showOnFreeDay,addTime,',
+    $GLOBALS['TL_DCA']['tl_calendar_events']['palettes']['article']
+);
+
+$GLOBALS['TL_DCA']['tl_calendar_events']['palettes']['internal'] = str_replace
+(
+    'addTime,',
+    'showOnFreeDay,addTime,',
+    $GLOBALS['TL_DCA']['tl_calendar_events']['palettes']['internal']
+);
+
+$GLOBALS['TL_DCA']['tl_calendar_events']['palettes']['external'] = str_replace
+(
+    'addTime,',
+    'showOnFreeDay,addTime,',
+    $GLOBALS['TL_DCA']['tl_calendar_events']['palettes']['external']
+);
+
 if (class_exists('leads\leads')) {
     $GLOBALS['TL_DCA']['tl_calendar_events']['palettes']['default'] = str_replace
     (
@@ -114,7 +135,6 @@ $GLOBALS['TL_DCA']['tl_calendar_events']['fields']['repeatWeekday'] = array
     'inputType' => 'checkbox',
     'options' => array(1, 2, 3, 4, 5, 6, 0),
     'reference' => &$GLOBALS['TL_LANG']['DAYS'],
-    'load_callback' => array(array('tl_calendar_events_ext', 'getWeekday')),
     'eval' => array('multiple' => true, 'tl_class' => 'clr'),
     'sql' => "varchar(128) NOT NULL default ''"
 );

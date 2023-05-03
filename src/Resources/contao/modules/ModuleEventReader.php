@@ -8,14 +8,16 @@
  * @license LGPL-3.0+
  */
 
-namespace CgoIt\CalendarExtendedBundle;
+namespace Kmielke\CalendarExtendedBundle;
 
 use Contao\CoreBundle\Exception\PageNotFoundException;
 use Contao\Environment;
 
-use CgoIt\CalendarExtendedBundle\CalendarEventsModelExt;
-use CgoIt\CalendarExtendedBundle\CalendarLeadsModel;
-use CgoIt\CalendarExtendedBundle\EventsExt;
+use Contao\PageModel;
+use Contao\System;
+use Kmielke\CalendarExtendedBundle\CalendarEventsModelExt;
+use Kmielke\CalendarExtendedBundle\CalendarLeadsModel;
+use Kmielke\CalendarExtendedBundle\EventsExt;
 
 /**
  * Front end module "event reader".
@@ -97,8 +99,19 @@ class ModuleEventReader extends EventsExt
     global $objPage;
 
     $this->Template->event = '';
-    $this->Template->referer = 'javascript:history.go(-1)';
-    $this->Template->back = $GLOBALS['TL_LANG']['MSC']['goBack'];
+
+    if ($this->overviewPage)
+    {
+      $this->Template->referer = PageModel::findById($this->overviewPage)->getFrontendUrl();
+      $this->Template->back = $this->customLabel ?: $GLOBALS['TL_LANG']['MSC']['eventOverview'];
+    }
+    else
+    {
+      trigger_deprecation('contao/calendar-bundle', '4.13', 'If you do not select an overview page in the event reader module, the "go back" link will no longer be shown in Contao 5.0.');
+
+      $this->Template->referer = 'javascript:history.go(-1)';
+      $this->Template->back = $GLOBALS['TL_LANG']['MSC']['goBack'];
+    }
 
     // Get the current event
     $objEvent = CalendarEventsModelExt::findPublishedByParentAndIdOrAlias(\Input::get('events'), $this->cal_calendar);
@@ -527,6 +540,13 @@ class ModuleEventReader extends EventsExt
     }
 
     $this->Template->event = $objTemplate->parse();
+
+    // Tag the event (see #2137)
+    if (System::getContainer()->has('fos_http_cache.http.symfony_response_tagger'))
+    {
+      $responseTagger = System::getContainer()->get('fos_http_cache.http.symfony_response_tagger');
+      $responseTagger->addTags(array('contao.db.tl_calendar_events.' . $objEvent->id));
+    }
 
     // HOOK: comments extension required
     if ($objEvent->noComments || !in_array('comments', \ModuleLoader::getActive())) {

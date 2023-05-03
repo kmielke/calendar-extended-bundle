@@ -8,10 +8,11 @@
  * @license LGPL-3.0+
  */
 
-namespace CgoIt\CalendarExtendedBundle;
+namespace Kmielke\CalendarExtendedBundle;
 
-use CgoIt\CalendarExtendedBundle\EventsExt;
-use CgoIt\CalendarExtendedBundle\CalendarLeadsModel;
+use Contao\System;
+use Kmielke\CalendarExtendedBundle\EventsExt;
+use Kmielke\CalendarExtendedBundle\CalendarLeadsModel;
 
 /**
  * Class ModuleEventListExt
@@ -87,10 +88,10 @@ class ModuleEventlist extends EventsExt
                 list($cssColor, $cssOpacity) = deserialize($objBG->bg_color);
 
                 if (!empty($cssColor)) {
-                    $this->appendElement($this->calConf[$cal], 'background', 'background-color:#' . $cssColor . ';');
+                    $this->calConf[$cal]['background'] .= 'background-color:#' . $cssColor . ';';
                 }
                 if (!empty($cssOpacity)) {
-                    $this->appendElement($this->calConf[$cal], 'background', 'opacity:#' . ($cssOpacity / 100) . ';');
+                    $this->calConf[$cal]['background'] .= 'opacity:' . ($cssOpacity / 100) . ';';
                 }
             }
 
@@ -98,10 +99,10 @@ class ModuleEventlist extends EventsExt
                 list($cssColor, $cssOpacity) = deserialize($objBG->fg_color);
 
                 if (!empty($cssColor)) {
-                    $this->appendElement($this->calConf[$cal], 'foreground', 'color:#' . $cssColor . ';');
+                    $this->calConf[$cal]['foreground'] .= 'color:#' . $cssColor . ';';
                 }
                 if (!empty($cssOpacity)) {
-                    $this->appendElement($this->calConf[$cal], 'foreground', 'opacity:#' . ($cssOpacity / 100) . ';');
+                    $this->calConf[$cal]['foreground'] .= 'opacity:' . ($cssOpacity / 100) . ';';
                 }
             }
         }
@@ -110,6 +111,13 @@ class ModuleEventlist extends EventsExt
         if ($this->cal_readerModule > 0 && (isset($_GET['events']) || (\Config::get('useAutoItem') && isset($_GET['auto_item'])))) {
             return $this->getFrontendModule($this->cal_readerModule, $this->strColumn);
         }
+
+		// Tag the calendars (see #2137)
+		if (System::getContainer()->has('fos_http_cache.http.symfony_response_tagger'))
+		{
+			$responseTagger = System::getContainer()->get('fos_http_cache.http.symfony_response_tagger');
+			$responseTagger->addTags(array_map(static function ($id) { return 'contao.db.tl_calendar.' . $id; }, $this->cal_calendar));
+		}
 
         return parent::generate();
     }
@@ -258,7 +266,7 @@ class ModuleEventlist extends EventsExt
                     $eventStop = ($objEV->stop) ? $objEV->stop : false;
                     unset($objEV);
 
-                    if ($event['show']) {
+                    if ($event['show'] ?? false) {
                         // Remove events outside time scope
                         if ($this->pubTimeRecurrences && ($eventStart && $eventStop)) {
                             // Step 2: get show from/until times
@@ -321,10 +329,10 @@ class ModuleEventlist extends EventsExt
 
                     $event['calendar_title'] = $this->calConf[$event['pid']]['calendar'];
 
-                    if ($this->calConf[$event['pid']]['background']) {
+                    if ($this->calConf[$event['pid']]['background'] ?? false) {
                         $event['bgstyle'] = $this->calConf[$event['pid']]['background'];
                     }
-                    if ($this->calConf[$event['pid']]['foreground']) {
+                    if ($this->calConf[$event['pid']]['foreground'] ?? false) {
                         $event['fgstyle'] = $this->calConf[$event['pid']]['foreground'];
                     }
 
@@ -541,13 +549,4 @@ class ModuleEventlist extends EventsExt
             \Input::setGet('day', null);
         }
     }
-
-
-   private function appendElement(&$arr, $key, $val) {
-      if (array_key_exists($key, $arr)) {
-         $arr[$key] .= $val;
-      } else {
-         $arr += [$key => $val];
-      }
-   }
 }

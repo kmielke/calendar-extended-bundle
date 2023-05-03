@@ -88,10 +88,10 @@ class ModuleEventlist extends EventsExt
                 list($cssColor, $cssOpacity) = deserialize($objBG->bg_color);
 
                 if (!empty($cssColor)) {
-                    $this->calConf[$cal]['background'] .= 'background-color:#' . $cssColor . ';';
+                    Utils::appendToArrayKey($this->calConf[$cal], 'background', 'background-color:#' . $cssColor . ';');
                 }
                 if (!empty($cssOpacity)) {
-                    $this->calConf[$cal]['background'] .= 'opacity:' . ($cssOpacity / 100) . ';';
+                    Utils::appendToArrayKey($this->calConf[$cal], 'background', 'opacity:' . ($cssOpacity / 100) . ';');
                 }
             }
 
@@ -99,10 +99,10 @@ class ModuleEventlist extends EventsExt
                 list($cssColor, $cssOpacity) = deserialize($objBG->fg_color);
 
                 if (!empty($cssColor)) {
-                    $this->calConf[$cal]['foreground'] .= 'color:#' . $cssColor . ';';
+                    Utils::appendToArrayKey($this->calConf[$cal], 'foreground', 'color:#' . $cssColor . ';');
                 }
                 if (!empty($cssOpacity)) {
-                    $this->calConf[$cal]['foreground'] .= 'opacity:' . ($cssOpacity / 100) . ';';
+                    Utils::appendToArrayKey($this->calConf[$cal], 'foreground', 'opacity:' . ($cssOpacity / 100) . ';');
                 }
             }
         }

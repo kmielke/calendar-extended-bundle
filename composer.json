@@ -1,5 +1,5 @@
 {
-  "name": "cgoit/calendar-extended-bundle",
+  "name": "kmielke/calendar-extended-bundle",
   "description": "Contao 4 LTS calendar extension bundle. Better recurring events and exceptions.",
   "keywords": [
     "contao",
@@ -16,14 +16,10 @@
     {
       "name": "Kester Mielke",
       "email": "kester.mielke@posteo.de"
-    },
-    {
-      "name": "Carsten Götzinger",
-      "email": "info@cgo-it.de"
     }
   ],
   "require": {
-    "php": "^7.4 || ^8.0",
+    "php": ">=5.6.0",
     "contao/core-bundle": "^4.4",
     "contao/calendar-bundle": "^4.4",
     "menatwork/contao-multicolumnwizard-bundle": "^3.4",
@@ -32,7 +28,7 @@
   },
   "autoload": {
     "psr-4": {
-      "CgoIt\\CalendarExtendedBundle\\": "src/"
+      "Kmielke\\CalendarExtendedBundle\\": "src/"
     },
     "classmap": [
       "src/Resources/contao/"
@@ -45,6 +41,6 @@
     ]
   },
   "extra": {
-    "contao-manager-plugin": "CgoIt\\CalendarExtendedBundle\\ContaoManager\\Plugin"
+    "contao-manager-plugin": "Kmielke\\CalendarExtendedBundle\\ContaoManager\\Plugin"
   }
 }

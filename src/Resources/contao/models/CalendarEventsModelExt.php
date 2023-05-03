@@ -8,7 +8,7 @@
  * @license LGPL-3.0+
  */
 
-namespace CgoIt\CalendarExtendedBundle;
+namespace Kmielke\CalendarExtendedBundle;
 
 /**
  * Reads and writes events

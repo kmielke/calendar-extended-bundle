@@ -15,14 +15,14 @@
 /**
  * Namespace
  */
-namespace CgoIt\CalendarExtendedBundle;
+namespace Kmielke\CalendarExtendedBundle;
 
 use Contao\Calendar;
 use Contao\CalendarModel;
 use Contao\Date;
 use Contao\Events;
 
-use CgoIt\CalendarExtendedBundle\CalendarEventsModelExt;
+use Kmielke\CalendarExtendedBundle\CalendarEventsModelExt;
 
 /**
  * Class EventExt
@@ -96,13 +96,6 @@ class EventsExt extends Events
             }
         }
 
-        $arrArgs = null;
-        if ($blnFeatured !== null) {
-           $arrArgs = array('showFeatured' => $blnFeatured);
-        } else {
-           $arrArgs = array();
-        }
-
         // Used to collect exception list data for events
         $arrEventSkipInfo = array();
 
@@ -117,7 +110,7 @@ class EventsExt extends Events
             }
 
             // Get the events of the current period
-            $objEvents = CalendarEventsModelExt::findCurrentByPid($id, $intStart, $intEnd, $arrArgs);
+            $objEvents = CalendarEventsModelExt::findCurrentByPid($id, $intStart, $intEnd, array('showFeatured' => $blnFeatured));
 
             if ($objEvents === null) {
                 continue;

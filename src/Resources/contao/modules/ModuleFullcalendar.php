@@ -8,10 +8,10 @@
  * @license LGPL-3.0+
  */
 
-namespace CgoIt\CalendarExtendedBundle;
+namespace Kmielke\CalendarExtendedBundle;
 
-use CgoIt\CalendarExtendedBundle\EventsExt;
-use CgoIt\CalendarExtendedBundle\CalendarEventsModelExt;
+use Kmielke\CalendarExtendedBundle\EventsExt;
+use Kmielke\CalendarExtendedBundle\CalendarEventsModelExt;
 
 /**
  * Front end module "calendar".

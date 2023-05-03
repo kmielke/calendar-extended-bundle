@@ -10,7 +10,7 @@
 
 declare(strict_types = 1);
 
-namespace CgoIt\CalendarExtendedBundle;
+namespace Kmielke\CalendarExtendedBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 

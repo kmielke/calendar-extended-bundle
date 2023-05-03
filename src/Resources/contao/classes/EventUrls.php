@@ -15,7 +15,7 @@
 /**
  * Namespace
  */
-namespace CgoIt\CalendarExtendedBundle;
+namespace Kmielke\CalendarExtendedBundle;
 
 /**
  * Class EventExt

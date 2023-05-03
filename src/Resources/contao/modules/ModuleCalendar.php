@@ -8,7 +8,7 @@
  * @license LGPL-3.0+
  */
 
-namespace CgoIt\CalendarExtendedBundle;
+namespace Kmielke\CalendarExtendedBundle;
 
 use Contao\System;
 
@@ -91,10 +91,10 @@ class ModuleCalendar extends EventsExt
                 list($cssColor, $cssOpacity) = deserialize($objBG->bg_color);
 
                 if (!empty($cssColor)) {
-                   $this->appendElement($this->calConf[$cal], 'background', 'background-color:#' . $cssColor . ';');
+                    Utils::appendToArrayKey($this->calConf[$cal], 'background', 'background-color:#' . $cssColor . ';');
                 }
                 if (!empty($cssOpacity)) {
-                   $this->appendElement($this->calConf[$cal], 'background', 'opacity:' . ($cssOpacity / 100) . ';');
+                    Utils::appendToArrayKey($this->calConf[$cal], 'background', 'opacity:' . ($cssOpacity / 100) . ';');
                 }
             }
 
@@ -102,10 +102,10 @@ class ModuleCalendar extends EventsExt
                 list($cssColor, $cssOpacity) = deserialize($objBG->fg_color);
 
                 if (!empty($cssColor)) {
-                   $this->appendElement($this->calConf[$cal], 'foreground', 'color:#' . $cssColor . ';');
+                    Utils::appendToArrayKey($this->calConf[$cal], 'foreground', 'color:#' . $cssColor . ';');
                 }
                 if (!empty($cssOpacity)) {
-                   $this->appendElement($this->calConf[$cal], 'foreground', 'opacity:' . ($cssOpacity / 100) . ';');
+                    Utils::appendToArrayKey($this->calConf[$cal], 'foreground', 'opacity:' . ($cssOpacity / 100) . ';');
                 }
             }
         }
@@ -335,13 +335,5 @@ class ModuleCalendar extends EventsExt
         }
 
         return $arrDays;
-    }
-
-    private function appendElement(&$arr, $key, $val) {
-       if (array_key_exists($key, $arr)) {
-          $arr[$key] .= $val;
-       } else {
-          $arr += [$key => $val];
-       }
     }
 }

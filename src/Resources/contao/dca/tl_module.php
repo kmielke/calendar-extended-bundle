@@ -1,28 +1,29 @@
 <?php
 
-/**
- * Contao Open Source CMS
+declare(strict_types=1);
+
+/*
+ * This file is part of cgoit\calendar-extended-bundle.
  *
- * Copyright (C) 2005-2012 Leo Feyer
+ * (c) Kester Mielke
  *
- * @package   Contao
- * @author    Kester Mielke
- * @license   LGPL
- * @copyright Kester Mielke 2010-2013
+ * (c) Carsten Götzinger
+ *
+ * @license LGPL-3.0-or-later
  */
 
 //namespace Kmielke\CalendarExtendedBundle;
 
-/**
+/*
  * Add palettes to tl_module
  */
 
 // Palette for calendar
 use Contao\Controller;
+use Contao\System;
 use NotificationCenter\Model\Notification;
 
-$GLOBALS['TL_DCA']['tl_module']['palettes']['calendar'] = str_replace
-(
+$GLOBALS['TL_DCA']['tl_module']['palettes']['calendar'] = str_replace(
     ';{redirect_legend}',
     ';{config_ext_legend},cal_holiday,show_holiday,ignore_urlparameter;{redirect_legend}',
     $GLOBALS['TL_DCA']['tl_module']['palettes']['calendar']
@@ -31,8 +32,7 @@ $GLOBALS['TL_DCA']['tl_module']['palettes']['calendar'] .= ';{filter_legend},fil
 
 // Palette for timetable
 $GLOBALS['TL_DCA']['tl_module']['palettes']['timetable'] = $GLOBALS['TL_DCA']['tl_module']['palettes']['calendar'];
-$GLOBALS['TL_DCA']['tl_module']['palettes']['timetable'] = str_replace
-(
+$GLOBALS['TL_DCA']['tl_module']['palettes']['timetable'] = str_replace(
     ';{redirect_legend}',
     ',showDate,hideEmptyDays,use_navigation,linkCurrent,cal_times,cal_times_range,cellhight;{redirect_legend}',
     $GLOBALS['TL_DCA']['tl_module']['palettes']['timetable']
@@ -40,16 +40,14 @@ $GLOBALS['TL_DCA']['tl_module']['palettes']['timetable'] = str_replace
 
 // Palette for yearview
 $GLOBALS['TL_DCA']['tl_module']['palettes']['yearview'] = $GLOBALS['TL_DCA']['tl_module']['palettes']['calendar'];
-$GLOBALS['TL_DCA']['tl_module']['palettes']['yearview'] = str_replace
-(
+$GLOBALS['TL_DCA']['tl_module']['palettes']['yearview'] = str_replace(
     ';{redirect_legend}',
     ',use_horizontal,use_navigation,linkCurrent;{protected_legend:hide}',
     $GLOBALS['TL_DCA']['tl_module']['palettes']['yearview']
 );
 
 // Palette for eventlist
-$GLOBALS['TL_DCA']['tl_module']['palettes']['eventlist'] = str_replace
-(
+$GLOBALS['TL_DCA']['tl_module']['palettes']['eventlist'] = str_replace(
     ';{template_legend:hide}',
     ';{config_ext_legend},cal_holiday,show_holiday,ignore_urlparameter,cal_format_ext,displayDuration,range_date,showRecurrences,hide_started,pubTimeRecurrences,showOnlyNext;{template_legend:hide}',
     $GLOBALS['TL_DCA']['tl_module']['palettes']['eventlist']
@@ -57,8 +55,7 @@ $GLOBALS['TL_DCA']['tl_module']['palettes']['eventlist'] = str_replace
 $GLOBALS['TL_DCA']['tl_module']['palettes']['eventlist'] .= ';{filter_legend},filter_fields';
 
 // Palette for eventreader
-$GLOBALS['TL_DCA']['tl_module']['palettes']['eventreader'] = str_replace
-(
+$GLOBALS['TL_DCA']['tl_module']['palettes']['eventreader'] = str_replace(
     '{config_legend},cal_calendar',
     '{config_legend},cal_calendar,cal_holiday',
     $GLOBALS['TL_DCA']['tl_module']['palettes']['eventreader']
@@ -68,227 +65,203 @@ $GLOBALS['TL_DCA']['tl_module']['palettes']['eventreader'] = str_replace
 $GLOBALS['TL_DCA']['tl_module']['palettes']['evr_registration'] = '{title_legend},name,headline,type;{registration_legend},nc_notification,regtype;{filter_legend},filter_fields';
 //'{redirect_legend},jumpTo;{template_legend:hide},cal_ctemplate,customTpl;{protected_legend:hide},protected;{expert_legend:hide},guests,cssID,space';
 
-/**
+/*
  * Add fields to tl_module
  */
-$GLOBALS['TL_DCA']['tl_module']['fields']['regtype'] = array
-(
+$GLOBALS['TL_DCA']['tl_module']['fields']['regtype'] = [
     'label' => &$GLOBALS['TL_LANG']['tl_module']['regtype'],
     'exclude' => true,
     'filter' => true,
     'default' => 0,
     'inputType' => 'radio',
-    'options' => array(1, 0),
+    'options' => [1, 0],
     'reference' => &$GLOBALS['TL_LANG']['tl_module']['regtypes'],
-    'eval' => array('tl_class' => 'w50 m12', 'chosen' => true),
-    'sql' => "char(1) NOT NULL default ''"
-);
+    'eval' => ['tl_class' => 'w50 m12', 'chosen' => true],
+    'sql' => "char(1) NOT NULL default ''",
+];
 
-$GLOBALS['TL_DCA']['tl_module']['fields']['cal_calendar'] = array
-(
+$GLOBALS['TL_DCA']['tl_module']['fields']['cal_calendar'] = [
     'label' => &$GLOBALS['TL_LANG']['tl_module']['cal_calendar'],
     'exclude' => true,
     'inputType' => 'checkbox',
-    'options_callback' => array('calendar_Ext', 'getCalendars'),
-    'eval' => array('mandatory' => true, 'multiple' => true),
-    'sql' => "text NULL"
-);
+    'options_callback' => ['calendar_Ext', 'getCalendars'],
+    'eval' => ['mandatory' => true, 'multiple' => true],
+    'sql' => 'text NULL',
+];
 
-$GLOBALS['TL_DCA']['tl_module']['fields']['cal_holiday'] = array
-(
+$GLOBALS['TL_DCA']['tl_module']['fields']['cal_holiday'] = [
     'label' => &$GLOBALS['TL_LANG']['tl_module']['cal_holiday'],
     'exclude' => true,
     'inputType' => 'checkbox',
-    'options_callback' => array('calendar_Ext', 'getHolidays'),
-    'eval' => array('mandatory' => false, 'multiple' => true, 'tl_class' => 'long'),
-    'sql' => "text NULL"
-);
+    'options_callback' => ['calendar_Ext', 'getHolidays'],
+    'eval' => ['mandatory' => false, 'multiple' => true, 'tl_class' => 'long'],
+    'sql' => 'text NULL',
+];
 
-$GLOBALS['TL_DCA']['tl_module']['fields']['show_holiday'] = array
-(
+$GLOBALS['TL_DCA']['tl_module']['fields']['show_holiday'] = [
     'label' => &$GLOBALS['TL_LANG']['tl_module']['show_holiday'],
     'default' => 0,
     'exclude' => true,
     'inputType' => 'checkbox',
-    'eval' => array('tl_class' => 'w50'),
-    'sql' => "char(1) NOT NULL default ''"
-);
+    'eval' => ['tl_class' => 'w50'],
+    'sql' => "char(1) NOT NULL default ''",
+];
 
-$GLOBALS['TL_DCA']['tl_module']['fields']['ignore_urlparameter'] = array
-(
+$GLOBALS['TL_DCA']['tl_module']['fields']['ignore_urlparameter'] = [
     'label' => &$GLOBALS['TL_LANG']['tl_module']['ignore_urlparameter'],
     'default' => 0,
     'exclude' => true,
     'inputType' => 'checkbox',
-    'eval' => array('tl_class' => 'w50'),
-    'sql' => "char(1) NOT NULL default ''"
-);
+    'eval' => ['tl_class' => 'w50'],
+    'sql' => "char(1) NOT NULL default ''",
+];
 
-$GLOBALS['TL_DCA']['tl_module']['fields']['pubTimeRecurrences'] = array
-(
+$GLOBALS['TL_DCA']['tl_module']['fields']['pubTimeRecurrences'] = [
     'label' => &$GLOBALS['TL_LANG']['tl_module']['pubTimeRecurrences'],
     'default' => 0,
     'exclude' => true,
     'inputType' => 'checkbox',
-    'eval' => array('tl_class' => 'w50'),
-    'sql' => "char(1) NOT NULL default ''"
-);
+    'eval' => ['tl_class' => 'w50'],
+    'sql' => "char(1) NOT NULL default ''",
+];
 
-$GLOBALS['TL_DCA']['tl_module']['fields']['cal_format_ext'] = array
-(
+$GLOBALS['TL_DCA']['tl_module']['fields']['cal_format_ext'] = [
     'label' => &$GLOBALS['TL_LANG']['tl_module']['cal_format_ext'],
     'exclude' => true,
     'inputType' => 'text',
-    'eval' => array('tl_class' => 'w50'),
-    'save_callback' => array
-    (
-        array('calendar_Ext', 'checkCalFormat')
-    ),
-    'sql' => "varchar(128) NOT NULL default ''"
-);
+    'eval' => ['tl_class' => 'w50'],
+    'save_callback' => [
+        ['calendar_Ext', 'checkCalFormat'],
+    ],
+    'sql' => "varchar(128) NOT NULL default ''",
+];
 
-$GLOBALS['TL_DCA']['tl_module']['fields']['displayDuration'] = array
-(
+$GLOBALS['TL_DCA']['tl_module']['fields']['displayDuration'] = [
     'label' => &$GLOBALS['TL_LANG']['tl_module']['displayDuration'],
     'exclude' => true,
     'inputType' => 'text',
-    'eval' => array('tl_class' => 'w50'),
-    'save_callback' => array
-    (
-        array('calendar_Ext', 'checkDuration')
-    ),
-    'sql' => "varchar(128) NOT NULL default ''"
-);
+    'eval' => ['tl_class' => 'w50'],
+    'save_callback' => [
+        ['calendar_Ext', 'checkDuration'],
+    ],
+    'sql' => "varchar(128) NOT NULL default ''",
+];
 
-$GLOBALS['TL_DCA']['tl_module']['fields']['showOnlyNext'] = array
-(
+$GLOBALS['TL_DCA']['tl_module']['fields']['showOnlyNext'] = [
     'label' => &$GLOBALS['TL_LANG']['tl_module']['showOnlyNext'],
     'default' => 0,
     'exclude' => true,
     'inputType' => 'checkbox',
-    'eval' => array('tl_class' => 'w50'),
-    'sql' => "char(1) NOT NULL default ''"
-);
+    'eval' => ['tl_class' => 'w50'],
+    'sql' => "char(1) NOT NULL default ''",
+];
 
-$GLOBALS['TL_DCA']['tl_module']['fields']['showRecurrences'] = array
-(
+$GLOBALS['TL_DCA']['tl_module']['fields']['showRecurrences'] = [
     'label' => &$GLOBALS['TL_LANG']['tl_module']['showRecurrences'],
     'default' => 0,
     'exclude' => true,
     'inputType' => 'checkbox',
-    'eval' => array('tl_class' => 'w50'),
-    'sql' => "char(1) NOT NULL default ''"
-);
+    'eval' => ['tl_class' => 'w50'],
+    'sql' => "char(1) NOT NULL default ''",
+];
 
-$GLOBALS['TL_DCA']['tl_module']['fields']['use_horizontal'] = array
-(
+$GLOBALS['TL_DCA']['tl_module']['fields']['use_horizontal'] = [
     'label' => &$GLOBALS['TL_LANG']['tl_module']['use_horizontal'],
     'default' => 0,
     'exclude' => true,
     'inputType' => 'checkbox',
-    'eval' => array('tl_class' => 'w50'),
-    'sql' => "char(1) NOT NULL default ''"
-);
+    'eval' => ['tl_class' => 'w50'],
+    'sql' => "char(1) NOT NULL default ''",
+];
 
-$GLOBALS['TL_DCA']['tl_module']['fields']['use_navigation'] = array
-(
+$GLOBALS['TL_DCA']['tl_module']['fields']['use_navigation'] = [
     'label' => &$GLOBALS['TL_LANG']['tl_module']['use_navigation'],
     'default' => 1,
     'exclude' => true,
     'inputType' => 'checkbox',
-    'eval' => array('tl_class' => 'w50'),
-    'sql' => "char(1) NOT NULL default ''"
-);
+    'eval' => ['tl_class' => 'w50'],
+    'sql' => "char(1) NOT NULL default ''",
+];
 
-$GLOBALS['TL_DCA']['tl_module']['fields']['showDate'] = array
-(
+$GLOBALS['TL_DCA']['tl_module']['fields']['showDate'] = [
     'label' => &$GLOBALS['TL_LANG']['tl_module']['showDate'],
     'default' => 1,
     'exclude' => true,
     'inputType' => 'checkbox',
-    'eval' => array('tl_class' => 'w50'),
-    'sql' => "char(1) NOT NULL default ''"
-);
+    'eval' => ['tl_class' => 'w50'],
+    'sql' => "char(1) NOT NULL default ''",
+];
 
-$GLOBALS['TL_DCA']['tl_module']['fields']['linkCurrent'] = array
-(
+$GLOBALS['TL_DCA']['tl_module']['fields']['linkCurrent'] = [
     'label' => &$GLOBALS['TL_LANG']['tl_module']['linkCurrent'],
     'default' => 1,
     'exclude' => true,
     'inputType' => 'checkbox',
-    'eval' => array('tl_class' => 'w50'),
-    'sql' => "char(1) NOT NULL default ''"
-);
+    'eval' => ['tl_class' => 'w50'],
+    'sql' => "char(1) NOT NULL default ''",
+];
 
-$GLOBALS['TL_DCA']['tl_module']['fields']['hideEmptyDays'] = array
-(
+$GLOBALS['TL_DCA']['tl_module']['fields']['hideEmptyDays'] = [
     'label' => &$GLOBALS['TL_LANG']['tl_module']['hideEmptyDays'],
     'default' => 1,
     'exclude' => true,
     'inputType' => 'checkbox',
-    'eval' => array('tl_class' => 'w50'),
-    'sql' => "char(1) NOT NULL default ''"
-);
+    'eval' => ['tl_class' => 'w50'],
+    'sql' => "char(1) NOT NULL default ''",
+];
 
-$GLOBALS['TL_DCA']['tl_module']['fields']['cal_times'] = array
-(
+$GLOBALS['TL_DCA']['tl_module']['fields']['cal_times'] = [
     'label' => &$GLOBALS['TL_LANG']['tl_module']['cal_times'],
     'exclude' => true,
     'inputType' => 'checkbox',
-    'eval' => array('tl_class' => 'w50'),
-    'sql' => "char(1) NOT NULL default ''"
-);
+    'eval' => ['tl_class' => 'w50'],
+    'sql' => "char(1) NOT NULL default ''",
+];
 
 // list of exceptions
-$GLOBALS['TL_DCA']['tl_module']['fields']['cal_times_range'] = array
-(
+$GLOBALS['TL_DCA']['tl_module']['fields']['cal_times_range'] = [
     'label' => &$GLOBALS['TL_LANG']['tl_module']['cal_times_range'],
     'exclude' => true,
     'inputType' => 'multiColumnWizard',
-    'eval' => array
-    (
+    'eval' => [
         'tl_class' => 'clr w50',
-        'columnsCallback' => array('calendar_Ext', 'getTimeRange'),
-        'buttons' => array('up' => false, 'down' => false, 'copy' => false)
-    ),
-    'sql' => "text NULL"
-);
+        'columnsCallback' => ['calendar_Ext', 'getTimeRange'],
+        'buttons' => ['up' => false, 'down' => false, 'copy' => false],
+    ],
+    'sql' => 'text NULL',
+];
 
-$GLOBALS['TL_DCA']['tl_module']['fields']['cellhight'] = array
-(
+$GLOBALS['TL_DCA']['tl_module']['fields']['cellhight'] = [
     'label' => &$GLOBALS['TL_LANG']['tl_module']['cellhight'],
     'default' => 60,
     'exclude' => true,
     'inputType' => 'text',
-    'eval' => array('tl_class' => 'w50'),
-    'sql' => "varchar(10) NOT NULL default ''"
-);
+    'eval' => ['tl_class' => 'w50'],
+    'sql' => "varchar(10) NOT NULL default ''",
+];
 
-$GLOBALS['TL_DCA']['tl_module']['fields']['hide_started'] = array
-(
+$GLOBALS['TL_DCA']['tl_module']['fields']['hide_started'] = [
     'label' => &$GLOBALS['TL_LANG']['tl_module']['hide_started'],
     'exclude' => true,
     'inputType' => 'checkbox',
-    'eval' => array('tl_class' => 'w50'),
-    'sql' => "char(1) NOT NULL default ''"
-);
+    'eval' => ['tl_class' => 'w50'],
+    'sql' => "char(1) NOT NULL default ''",
+];
 
 // list of exceptions
-$GLOBALS['TL_DCA']['tl_module']['fields']['range_date'] = array
-(
+$GLOBALS['TL_DCA']['tl_module']['fields']['range_date'] = [
     'label' => &$GLOBALS['TL_LANG']['tl_module']['range_date'],
     'exclude' => true,
     'inputType' => 'multiColumnWizard',
-    'eval' => array
-    (
-        'columnsCallback' => array('calendar_Ext', 'getRange'),
-        'buttons' => array('up' => false, 'down' => false, 'copy' => false),
-        'tl_class' => 'clr'
-    ),
-    'sql' => "text NULL"
-);
+    'eval' => [
+        'columnsCallback' => ['calendar_Ext', 'getRange'],
+        'buttons' => ['up' => false, 'down' => false, 'copy' => false],
+        'tl_class' => 'clr',
+    ],
+    'sql' => 'text NULL',
+];
 
-/**
+/*
  * Fullcalendar
  */
 // Palette for fullcalendar
@@ -299,88 +272,79 @@ $GLOBALS['TL_DCA']['tl_module']['palettes']['fullcalendar'] = '
     {protected_legend:hide},protected;
     {expert_legend:hide},guests,cssID,space';
 
-$GLOBALS['TL_DCA']['tl_module']['fields']['cal_ctemplate'] = array
-(
+$GLOBALS['TL_DCA']['tl_module']['fields']['cal_ctemplate'] = [
     'label' => &$GLOBALS['TL_LANG']['tl_module']['cal_ctemplate'],
     'default' => 'cal_fc_default',
     'exclude' => true,
     'inputType' => 'select',
-    'options_callback' => array('calendar_Ext', 'getCalendarTemplates'),
-    'eval' => array('tl_class'=>'w50'),
-    'sql' => "varchar(32) NOT NULL default ''"
-);
+    'options_callback' => ['calendar_Ext', 'getCalendarTemplates'],
+    'eval' => ['tl_class' => 'w50'],
+    'sql' => "varchar(32) NOT NULL default ''",
+];
 
-$GLOBALS['TL_DCA']['tl_module']['fields']['eventLimit'] = array
-(
+$GLOBALS['TL_DCA']['tl_module']['fields']['eventLimit'] = [
     'label' => &$GLOBALS['TL_LANG']['tl_module']['eventLimit'],
     'exclude' => true,
     'inputType' => 'checkbox',
-    'eval' => array('tl_class' => 'clr w50'),
-    'sql' => "char(1) NOT NULL default ''"
-);
+    'eval' => ['tl_class' => 'clr w50'],
+    'sql' => "char(1) NOT NULL default ''",
+];
 
-$GLOBALS['TL_DCA']['tl_module']['fields']['fc_editable'] = array
-(
+$GLOBALS['TL_DCA']['tl_module']['fields']['fc_editable'] = [
     'label' => &$GLOBALS['TL_LANG']['tl_module']['fc_editable'],
     'exclude' => true,
     'inputType' => 'checkbox',
-    'eval' => array('tl_class' => 'clr w50'),
-    'sql' => "char(1) NOT NULL default ''"
-);
+    'eval' => ['tl_class' => 'clr w50'],
+    'sql' => "char(1) NOT NULL default ''",
+];
 
-$GLOBALS['TL_DCA']['tl_module']['fields']['businessHours'] = array
-(
+$GLOBALS['TL_DCA']['tl_module']['fields']['businessHours'] = [
     'label' => &$GLOBALS['TL_LANG']['tl_module']['businessHours'],
     'exclude' => true,
     'inputType' => 'checkbox',
-    'eval' => array('tl_class' => 'w50'),
-    'sql' => "char(1) NOT NULL default ''"
-);
+    'eval' => ['tl_class' => 'w50'],
+    'sql' => "char(1) NOT NULL default ''",
+];
 
-$GLOBALS['TL_DCA']['tl_module']['fields']['weekNumbers'] = array
-(
+$GLOBALS['TL_DCA']['tl_module']['fields']['weekNumbers'] = [
     'label' => &$GLOBALS['TL_LANG']['tl_module']['weekNumbers'],
     'exclude' => true,
     'inputType' => 'checkbox',
-    'eval' => array('tl_class' => 'w50'),
-    'sql' => "char(1) NOT NULL default ''"
-);
+    'eval' => ['tl_class' => 'w50'],
+    'sql' => "char(1) NOT NULL default ''",
+];
 
-$GLOBALS['TL_DCA']['tl_module']['fields']['weekNumbersWithinDays'] = array
-(
+$GLOBALS['TL_DCA']['tl_module']['fields']['weekNumbersWithinDays'] = [
     'label' => &$GLOBALS['TL_LANG']['tl_module']['weekNumbersWithinDays'],
     'exclude' => true,
     'inputType' => 'checkbox',
-    'eval' => array('tl_class' => 'w50'),
-    'sql' => "char(1) NOT NULL default ''"
-);
+    'eval' => ['tl_class' => 'w50'],
+    'sql' => "char(1) NOT NULL default ''",
+];
 
-/**
+/*
  * Filter
  */
-$GLOBALS['TL_DCA']['tl_module']['fields']['filter_fields'] = array
-(
+$GLOBALS['TL_DCA']['tl_module']['fields']['filter_fields'] = [
     'label' => &$GLOBALS['TL_LANG']['tl_module']['filter_fields'],
     'exclude' => true,
     'inputType' => 'checkbox',
-    'options_callback' => array('calendar_Ext', 'getEventField'),
-    'eval' => array('tl_class' => 'long', 'multiple' => true),
-    'sql' => "blob NULL"
-);
+    'options_callback' => ['calendar_Ext', 'getEventField'],
+    'eval' => ['tl_class' => 'long', 'multiple' => true],
+    'sql' => 'blob NULL',
+];
 
 /**
- * Class timetableExt
+ * Class timetableExt.
  *
  * Provide miscellaneous methods that are used by the data configuration array.
+ *
  * @copyright  Kester Mielke 2011
- * @author     Kester Mielke
- * @package    Controller
  */
-class calendar_Ext extends \Backend
+class calendar_Ext extends Backend
 {
-
     /**
-     * Import the back end user object
+     * Import the back end user object.
      */
     public function __construct()
     {
@@ -388,32 +352,30 @@ class calendar_Ext extends \Backend
         $this->import('BackendUser', 'User');
     }
 
-
     /**
      * @return array
      */
     public function getEventField()
     {
         // Load tl_calendar_events data
-        \Controller::loadDataContainer('tl_calendar_events');
-        \System::loadLanguageFile('tl_calendar_events');
+        Controller::loadDataContainer('tl_calendar_events');
+        System::loadLanguageFile('tl_calendar_events');
 
         // Get the event fields
-        $arr_fields = ($GLOBALS['TL_CONFIG']['tl_calendar_events']['filter'])
-            ? $GLOBALS['TL_CONFIG']['tl_calendar_events']['filter']
-            : $GLOBALS['TL_DCA']['tl_calendar_events']['fields'];
+        $arr_fields = $GLOBALS['TL_CONFIG']['tl_calendar_events']['filter']
+            ?: $GLOBALS['TL_DCA']['tl_calendar_events']['fields'];
 
         $event_fields = [];
+
         foreach ($arr_fields as $k => $v) {
             if (strlen($GLOBALS['TL_LANG']['tl_calendar_events'][$k][0])) {
-                $label = (strlen($v['label'])) ? $v['label'] : $GLOBALS['TL_LANG']['tl_calendar_events'][$k][0];
+                $label = strlen($v['label']) ? $v['label'] : $GLOBALS['TL_LANG']['tl_calendar_events'][$k][0];
                 $event_fields[$k] = $label;
             }
         }
 
         return $event_fields;
     }
-
 
     /**
      * @return array
@@ -424,10 +386,11 @@ class calendar_Ext extends \Backend
             return null;
         }
 
-        $return = array();
+        $return = [];
 
         $objNotifications = Notification::findAll();
-        if ($objNotifications !== null) {
+
+        if (null !== $objNotifications) {
             while ($objNotifications->next()) {
                 $return[$objNotifications->id] = $objNotifications->title;
             }
@@ -436,7 +399,6 @@ class calendar_Ext extends \Backend
         return $return;
     }
 
-
     /**
      * @return array|null
      */
@@ -444,27 +406,25 @@ class calendar_Ext extends \Backend
     {
         $columnFields = null;
 
-        $columnFields = array
-        (
-            'time_from' => array(
+        $columnFields = [
+            'time_from' => [
                 'label' => &$GLOBALS['TL_LANG']['tl_module']['time_range_from'],
                 'exclude' => true,
                 'default' => null,
                 'inputType' => 'text',
-                'eval' => array('rgxp' => 'time', 'doNotCopy' => true, 'style' => 'width:120px', 'datepicker' => true, 'tl_class' => 'wizard')
-            ),
-            'time_to' => array(
+                'eval' => ['rgxp' => 'time', 'doNotCopy' => true, 'style' => 'width:120px', 'datepicker' => true, 'tl_class' => 'wizard'],
+            ],
+            'time_to' => [
                 'label' => &$GLOBALS['TL_LANG']['tl_module']['time_range_to'],
                 'exclude' => true,
                 'default' => null,
                 'inputType' => 'text',
-                'eval' => array('rgxp' => 'time', 'doNotCopy' => true, 'style' => 'width:120px', 'datepicker' => true, 'tl_class' => 'wizard')
-            )
-        );
+                'eval' => ['rgxp' => 'time', 'doNotCopy' => true, 'style' => 'width:120px', 'datepicker' => true, 'tl_class' => 'wizard'],
+            ],
+        ];
 
         return $columnFields;
     }
-
 
     /**
      * @return array|null
@@ -473,62 +433,64 @@ class calendar_Ext extends \Backend
     {
         $columnFields = null;
 
-        $columnFields = array
-        (
-            'date_from' => array(
+        $columnFields = [
+            'date_from' => [
                 'label' => &$GLOBALS['TL_LANG']['tl_module']['range_from'],
                 'exclude' => true,
                 'default' => null,
                 'inputType' => 'text',
-                'eval' => array('rgxp' => 'datim', 'doNotCopy' => true, 'style' => 'width:120px', 'datepicker' => true, 'tl_class' => 'wizard')
-            ),
-            'date_to' => array(
+                'eval' => ['rgxp' => 'datim', 'doNotCopy' => true, 'style' => 'width:120px', 'datepicker' => true, 'tl_class' => 'wizard'],
+            ],
+            'date_to' => [
                 'label' => &$GLOBALS['TL_LANG']['tl_module']['range_to'],
                 'exclude' => true,
                 'default' => null,
                 'inputType' => 'text',
-                'eval' => array('rgxp' => 'datim', 'doNotCopy' => true, 'style' => 'width:120px', 'datepicker' => true, 'tl_class' => 'wizard')
-            )
-        );
+                'eval' => ['rgxp' => 'datim', 'doNotCopy' => true, 'style' => 'width:120px', 'datepicker' => true, 'tl_class' => 'wizard'],
+            ],
+        ];
 
         return $columnFields;
     }
 
-
     /**
      * @param $varValue
+     *
+     * @throws Exception
+     *
      * @return mixed
-     * @throws \Exception
      */
     public function checkDuration($varValue)
     {
-        if (strlen($varValue) > 0) {
+        if ('' !== $varValue) {
             if (($timestamp = date('dmY', strtotime($varValue, time()))) === date('dmY', time())) {
-                throw new \Exception($GLOBALS['TL_LANG']['tl_module']['displayDurationError2'] . ': ' . $timestamp);
+                throw new Exception($GLOBALS['TL_LANG']['tl_module']['displayDurationError2'].': '.$timestamp);
             }
         }
+
         return $varValue;
     }
-
 
     /**
      * @param $varValue
+     *
+     * @throws Exception
+     *
      * @return mixed
-     * @throws \Exception
      */
     public function checkCalFormat($varValue)
     {
-        if (strlen($varValue) > 0) {
+        if ('' !== $varValue) {
             if (($timestamp = date('dmYHis', strtotime($varValue, time()))) === date('dmYHis', time())) {
-                throw new \Exception($GLOBALS['TL_LANG']['tl_module']['displayDurationError2'] . ': ' . $timestamp);
+                throw new Exception($GLOBALS['TL_LANG']['tl_module']['displayDurationError2'].': '.$timestamp);
             }
         }
+
         return $varValue;
     }
 
-
     /**
-     * Return all calendar templates as array
+     * Return all calendar templates as array.
      *
      * @return array
      */
@@ -537,19 +499,19 @@ class calendar_Ext extends \Backend
         return $this->getTemplateGroup('cal_');
     }
 
-
     /**
-     * Get all calendars and return them as array
+     * Get all calendars and return them as array.
+     *
      * @return array
      */
     public function getCalendars()
     {
         if (!$this->User->isAdmin && !is_array($this->User->calendars)) {
-            return array();
+            return [];
         }
 
-        $arrCalendars = array();
-        $objCalendars = $this->Database->execute("SELECT id, title FROM tl_calendar WHERE isHolidayCal != 1 ORDER BY title");
+        $arrCalendars = [];
+        $objCalendars = $this->Database->execute('SELECT id, title FROM tl_calendar WHERE isHolidayCal != 1 ORDER BY title');
 
         while ($objCalendars->next()) {
             if ($this->User->isAdmin || $this->User->hasAccess($objCalendars->id, 'calendars')) {
@@ -560,19 +522,19 @@ class calendar_Ext extends \Backend
         return $arrCalendars;
     }
 
-
     /**
-     * Get all calendars and return them as array
+     * Get all calendars and return them as array.
+     *
      * @return array
      */
     public function getHolidays()
     {
         if (!$this->User->isAdmin && !is_array($this->User->calendars)) {
-            return array();
+            return [];
         }
 
-        $arrCalendars = array();
-        $objCalendars = $this->Database->execute("SELECT id, title FROM tl_calendar WHERE isHolidayCal = 1 ORDER BY title");
+        $arrCalendars = [];
+        $objCalendars = $this->Database->execute('SELECT id, title FROM tl_calendar WHERE isHolidayCal = 1 ORDER BY title');
 
         while ($objCalendars->next()) {
             if ($this->User->isAdmin || $this->User->hasAccess($objCalendars->id, 'calendars')) {

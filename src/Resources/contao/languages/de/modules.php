@@ -1,27 +1,26 @@
-<?php 
+<?php
 
-/**
- * Contao Open Source CMS
- * 
- * Copyright (C) 2005-2012 Leo Feyer
- * 
- * @package   Contao 
- * @author    Kester Mielke 
- * @license   LGPL 
- * @copyright Kester Mielke 2010-2013 
+declare(strict_types=1);
+
+/*
+ * This file is part of cgoit\calendar-extended-bundle.
+ *
+ * (c) Kester Mielke
+ *
+ * (c) Carsten Götzinger
+ *
+ * @license LGPL-3.0-or-later
  */
 
-
-/**
+/*
  * Back end modules
  */
-$GLOBALS['TL_LANG']['MOD'][''] = array('', '');
+$GLOBALS['TL_LANG']['MOD'][''] = ['', ''];
 
-
-/**
+/*
  * Front end modules
  */
-$GLOBALS['TL_LANG']['FMD']['timetable']	        = array('Stundenplan', 'Fügt der Seite einen Kalender Stundenplan hinzu.');
-$GLOBALS['TL_LANG']['FMD']['yearview']	        = array('Jahresübersicht', 'Fügt der Seite einen Kalender Jahresübersicht hinzu.');
-$GLOBALS['TL_LANG']['FMD']['evr_registration']  = array('Bestätigung Anmeldung/Abmeldung', 'Fügt der Seite ein Modul zur Bestätigung einer Anmeldung/Abmeldung hinzu.');
-$GLOBALS['TL_LANG']['FMD']['fullcalendar']      = array('Fullcalendar', 'Fügt der Seite ein Fullcalendar (jQuery Plugin) hinzu.');
+$GLOBALS['TL_LANG']['FMD']['timetable'] = ['Stundenplan', 'Fügt der Seite einen Kalender Stundenplan hinzu.'];
+$GLOBALS['TL_LANG']['FMD']['yearview'] = ['Jahresübersicht', 'Fügt der Seite einen Kalender Jahresübersicht hinzu.'];
+$GLOBALS['TL_LANG']['FMD']['evr_registration'] = ['Bestätigung Anmeldung/Abmeldung', 'Fügt der Seite ein Modul zur Bestätigung einer Anmeldung/Abmeldung hinzu.'];
+$GLOBALS['TL_LANG']['FMD']['fullcalendar'] = ['Fullcalendar', 'Fügt der Seite ein Fullcalendar (jQuery Plugin) hinzu.'];

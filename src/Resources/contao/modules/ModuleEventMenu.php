@@ -1,44 +1,48 @@
 <?php
 
-/**
- * Contao Open Source CMS
+declare(strict_types=1);
+
+/*
+ * This file is part of cgoit\calendar-extended-bundle.
  *
- * Copyright (c) 2005-2016 Leo Feyer
+ * (c) Kester Mielke
  *
- * @package   Contao
- * @author    Kester Mielke
- * @license   LGPL
- * @copyright Kester Mielke 2010-2013
+ * (c) Carsten Götzinger
+ *
+ * @license LGPL-3.0-or-later
  */
 
 namespace Kmielke\CalendarExtendedBundle;
 
+use Contao\BackendTemplate;
+use Contao\Config;
+use Contao\FrontendTemplate;
+use Contao\Input;
+use Contao\ModuleCalendar;
+
 /**
- * Class ModuleEventMenuExt
+ * Class ModuleEventMenuExt.
  *
  * @copyright  Kester Mielke 2010-2013
- * @author     Kester Mielke
- * @package    Devtools
  */
 class ModuleEventMenu extends ModuleCalendar
 {
-
     /**
-     * Display a wildcard in the back end
+     * Display a wildcard in the back end.
      *
      * @return string
      */
     public function generate()
     {
-        if (TL_MODE == 'BE') {
-            /** @var \BackendTemplate|object $objTemplate */
-            $objTemplate = new \BackendTemplate('be_wildcard');
+        if (TL_MODE === 'BE') {
+            /** @var BackendTemplate|object $objTemplate */
+            $objTemplate = new BackendTemplate('be_wildcard');
 
-            $objTemplate->wildcard = '### ' . utf8_strtoupper($GLOBALS['TL_LANG']['FMD']['eventmenu'][0]) . ' ###';
+            $objTemplate->wildcard = '### '.utf8_strtoupper($GLOBALS['TL_LANG']['FMD']['eventmenu'][0]).' ###';
             $objTemplate->title = $this->headline;
             $objTemplate->id = $this->id;
             $objTemplate->link = $this->name;
-            $objTemplate->href = 'contao/main.php?do=themes&amp;table=tl_module&amp;act=edit&amp;id=' . $this->id;
+            $objTemplate->href = 'contao/main.php?do=themes&amp;table=tl_module&amp;act=edit&amp;id='.$this->id;
 
             return $objTemplate->parse();
         }
@@ -46,11 +50,10 @@ class ModuleEventMenu extends ModuleCalendar
         return parent::generate();
     }
 
-
     /**
-     * Generate the module
+     * Generate the module.
      */
-    protected function compile()
+    protected function compile(): void
     {
         switch ($this->cal_format) {
             case 'cal_year':
@@ -69,111 +72,109 @@ class ModuleEventMenu extends ModuleCalendar
         }
     }
 
-
     /**
-     * Generate the yearly menu
+     * Generate the yearly menu.
      */
-    protected function compileYearlyMenu()
+    protected function compileYearlyMenu(): void
     {
-        $arrData = array();
+        $arrData = [];
 
-        if ($this->customTpl && TL_MODE == 'FE') { 
-            $strTemplate = $this->customTpl; 
+        if ($this->customTpl && TL_MODE === 'FE') {
+            $strTemplate = $this->customTpl;
         } else {
             $strTemplate = 'mod_eventmenu';
         }
 
-        /** @var \FrontendTemplate|object $objTemplate */
-        $objTemplate = new \FrontendTemplate($strTemplate);
+        /** @var FrontendTemplate|object $objTemplate */
+        $objTemplate = new FrontendTemplate($strTemplate);
 
         $this->Template = $objTemplate;
-        $arrAllEvents = $this->getAllEventsExt($this->cal_calendar, 0, 2145913200, array($this->cal_holiday));
+        $arrAllEvents = $this->getAllEventsExt($this->cal_calendar, 0, 2145913200, [$this->cal_holiday]);
 
         foreach ($arrAllEvents as $intDay => $arrDay) {
             foreach ($arrDay as $arrEvents) {
-                $arrData[substr($intDay, 0, 4)] += count($arrEvents);
+                $arrData[substr($intDay, 0, 4)] += \count($arrEvents);
             }
         }
 
         // Sort data
-        ($this->cal_order == 'ascending') ? ksort($arrData) : krsort($arrData);
+        ('ascending' === $this->cal_order) ? ksort($arrData) : krsort($arrData);
 
-        $arrItems = array();
+        $arrItems = [];
         $count = 0;
-        $limit = count($arrData);
+        $limit = \count($arrData);
 
         // Prepare navigation
         foreach ($arrData as $intYear => $intCount) {
             $intDate = $intYear;
-            $quantity = sprintf((($intCount < 2) ? $GLOBALS['TL_LANG']['MSC']['entry'] : $GLOBALS['TL_LANG']['MSC']['entries']), $intCount);
+            $quantity = sprintf(($intCount < 2 ? $GLOBALS['TL_LANG']['MSC']['entry'] : $GLOBALS['TL_LANG']['MSC']['entries']), $intCount);
 
             $arrItems[$intYear]['date'] = $intDate;
             $arrItems[$intYear]['link'] = $intYear;
-            $arrItems[$intYear]['href'] = $this->strLink . (\Config::get('disableAlias') ? '&amp;' : '?') . 'year=' . $intDate;
-            $arrItems[$intYear]['title'] = specialchars($intYear . ' (' . $quantity . ')');
-            $arrItems[$intYear]['class'] = trim(((++$count == 1) ? 'first ' : '') . (($count == $limit) ? 'last' : ''));
-            $arrItems[$intYear]['isActive'] = (\Input::get('year') == $intDate);
+            $arrItems[$intYear]['href'] = $this->strLink.(Config::get('disableAlias') ? '&amp;' : '?').'year='.$intDate;
+            $arrItems[$intYear]['title'] = specialchars($intYear.' ('.$quantity.')');
+            $arrItems[$intYear]['class'] = trim((1 === ++$count ? 'first ' : '').($count === $limit ? 'last' : ''));
+            $arrItems[$intYear]['isActive'] = (Input::get('year') === $intDate);
             $arrItems[$intYear]['quantity'] = $quantity;
         }
 
         $this->Template->items = $arrItems;
-        $this->Template->showQuantity = ($this->cal_showQuantity !== '') ? true : false;
+        $this->Template->showQuantity = '' !== $this->cal_showQuantity ? true : false;
         $this->Template->yearly = true;
     }
 
-
     /**
-     * Generate the monthly menu
+     * Generate the monthly menu.
      */
-    protected function compileMonthlyMenu()
+    protected function compileMonthlyMenu(): void
     {
-        $arrData = array();
+        $arrData = [];
 
         /** @var \FrontendTemplate|object $objTemplate */
         $objTemplate = new \FrontendTemplate('mod_eventmenu');
 
         $this->Template = $objTemplate;
-        $arrAllEvents = $this->getAllEventsExt($this->cal_calendar, 0, 2145913200, array($this->cal_holiday));
+        $arrAllEvents = $this->getAllEventsExt($this->cal_calendar, 0, 2145913200, [$this->cal_holiday]);
 
         foreach ($arrAllEvents as $intDay => $arrDay) {
             foreach ($arrDay as $arrEvents) {
-                $arrData[substr($intDay, 0, 4)][substr($intDay, 4, 2)] += count($arrEvents);
+                $arrData[substr($intDay, 0, 4)][substr($intDay, 4, 2)] += \count($arrEvents);
             }
         }
 
         // Sort data
         foreach (array_keys($arrData) as $key) {
-            ($this->cal_order == 'ascending') ? ksort($arrData[$key]) : krsort($arrData[$key]);
+            'ascending' === $this->cal_order ? ksort($arrData[$key]) : krsort($arrData[$key]);
         }
 
-        ($this->cal_order == 'ascending') ? ksort($arrData) : krsort($arrData);
+        ('ascending' === $this->cal_order) ? ksort($arrData) : krsort($arrData);
 
-        $arrItems = array();
+        $arrItems = [];
 
         // Prepare the navigation
         foreach ($arrData as $intYear => $arrMonth) {
             $count = 0;
-            $limit = count($arrMonth);
+            $limit = \count($arrMonth);
 
             foreach ($arrMonth as $intMonth => $intCount) {
-                $intDate = $intYear . $intMonth;
-                $intMonth = (intval($intMonth) - 1);
+                $intDate = $intYear.$intMonth;
+                $intMonth = (int) $intMonth - 1;
 
-                $quantity = sprintf((($intCount < 2) ? $GLOBALS['TL_LANG']['MSC']['entry'] : $GLOBALS['TL_LANG']['MSC']['entries']), $intCount);
+                $quantity = sprintf(($intCount < 2 ? $GLOBALS['TL_LANG']['MSC']['entry'] : $GLOBALS['TL_LANG']['MSC']['entries']), $intCount);
 
                 $arrItems[$intYear][$intMonth]['date'] = $intDate;
-                $arrItems[$intYear][$intMonth]['link'] = $GLOBALS['TL_LANG']['MONTHS'][$intMonth] . ' ' . $intYear;
-                $arrItems[$intYear][$intMonth]['href'] = $this->strLink . (\Config::get('disableAlias') ? '&amp;' : '?') . 'month=' . $intDate;
-                $arrItems[$intYear][$intMonth]['title'] = specialchars($GLOBALS['TL_LANG']['MONTHS'][$intMonth] . ' ' . $intYear . ' (' . $quantity . ')');
-                $arrItems[$intYear][$intMonth]['class'] = trim(((++$count == 1) ? 'first ' : '') . (($count == $limit) ? 'last' : ''));
-                $arrItems[$intYear][$intMonth]['isActive'] = (\Input::get('month') == $intDate);
+                $arrItems[$intYear][$intMonth]['link'] = $GLOBALS['TL_LANG']['MONTHS'][$intMonth].' '.$intYear;
+                $arrItems[$intYear][$intMonth]['href'] = $this->strLink.(Config::get('disableAlias') ? '&amp;' : '?').'month='.$intDate;
+                $arrItems[$intYear][$intMonth]['title'] = specialchars($GLOBALS['TL_LANG']['MONTHS'][$intMonth].' '.$intYear.' ('.$quantity.')');
+                $arrItems[$intYear][$intMonth]['class'] = trim((1 === ++$count ? 'first ' : '').($count === $limit ? 'last' : ''));
+                $arrItems[$intYear][$intMonth]['isActive'] = (Input::get('month') === $intDate);
                 $arrItems[$intYear][$intMonth]['quantity'] = $quantity;
             }
         }
 
         $this->Template->items = $arrItems;
-        $this->Template->showQuantity = ($this->cal_showQuantity != '') ? true : false;
-        $this->Template->url = $this->strLink . (\Config::get('disableAlias') ? '&amp;' : '?');
-        $this->Template->activeYear = \Input::get('year');
+        $this->Template->showQuantity = '' !== $this->cal_showQuantity ? true : false;
+        $this->Template->url = $this->strLink.(Config::get('disableAlias') ? '&amp;' : '?');
+        $this->Template->activeYear = Input::get('year');
     }
 }

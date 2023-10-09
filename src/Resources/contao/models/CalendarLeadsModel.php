@@ -1,47 +1,51 @@
 <?php
 
-/**
- * Contao Open Source CMS
+declare(strict_types=1);
+
+/*
+ * This file is part of cgoit\calendar-extended-bundle.
  *
- * Copyright (c) 2005-2016 Leo Feyer
+ * (c) Kester Mielke
  *
- * @license LGPL-3.0+
+ * (c) Carsten Götzinger
+ *
+ * @license LGPL-3.0-or-later
  */
 
 namespace Kmielke\CalendarExtendedBundle;
 
+use Contao\Database;
+use Contao\Database\Result;
+use Contao\Model;
 
 /**
- * Reads leads
- *
- * @author    Kester Mielke
+ * Reads leads.
  */
-class CalendarLeadsModel extends \Model
+class CalendarLeadsModel extends Model
 {
-
     /**
-     * Table name
+     * Table name.
+     *
      * @var string
      */
     protected static $strTableMaster = 'tl_lead';
     protected static $strTableDetail = 'tl_lead_data';
 
-
     /**
-     * @param $fid int formularid
-     * @param $eid int eventid
-     * @param $email string email
+     * @param int    $fid   formularid
+     * @param int    $eid   eventid
+     * @param string $email email
      *
-     * @return boolean
+     * @return bool
      */
     public static function regCheckByFormEventMail($fid, $eid, $email)
     {
         // SQL bauen
         $arrsql[] = 'select ld3.value as email';
-        $arrsql[] = 'from ' . static::$strTableMaster . ' lm';
-        $arrsql[] = 'left join ' . static::$strTableDetail . ' ld1 on ld1.pid = lm.id';
-        $arrsql[] = 'left join ' . static::$strTableDetail . ' ld2 on ld2.pid = ld1.pid';
-        $arrsql[] = 'left join ' . static::$strTableDetail . ' ld3 on ld3.pid = ld2.pid';
+        $arrsql[] = 'from '.static::$strTableMaster.' lm';
+        $arrsql[] = 'left join '.static::$strTableDetail.' ld1 on ld1.pid = lm.id';
+        $arrsql[] = 'left join '.static::$strTableDetail.' ld2 on ld2.pid = ld1.pid';
+        $arrsql[] = 'left join '.static::$strTableDetail.' ld3 on ld3.pid = ld2.pid';
         $arrsql[] = 'where lm.form_id = ?';
         $arrsql[] = 'and ld1.name = "eventid" and ld1.value = ?';
         $arrsql[] = 'and ld2.name = "published" and ld2.value = 1';
@@ -49,27 +53,25 @@ class CalendarLeadsModel extends \Model
         $sql = implode(' ', $arrsql);
 
         // und ausführen
-        $objResult = \Database::getInstance()->prepare($sql)->execute($fid, $eid, $email);
-        $found = ($objResult->email === $email) ? false : true;
+        $objResult = Database::getInstance()->prepare($sql)->execute($fid, $eid, $email);
 
-        return $found;
+        return $objResult->email === $email ? false : true;
     }
 
-
     /**
-     * @param $fid int formularid
-     * @param $eid int eventid
+     * @param int $fid formularid
+     * @param int $eid eventid
      *
-     * @return \Database\Result|object
+     * @return Result|object
      */
     public static function regCountByFormEvent($fid, $eid)
     {
         // SQL bauen
         $arrsql[] = 'select sum(ld3.value) as count';
-        $arrsql[] = 'from ' . static::$strTableMaster . ' lm';
-        $arrsql[] = 'left join ' . static::$strTableDetail . ' ld1 on ld1.pid = lm.id';
-        $arrsql[] = 'left join ' . static::$strTableDetail . ' ld2 on ld2.pid = ld1.pid';
-        $arrsql[] = 'left join ' . static::$strTableDetail . ' ld3 on ld3.pid = ld2.pid';
+        $arrsql[] = 'from '.static::$strTableMaster.' lm';
+        $arrsql[] = 'left join '.static::$strTableDetail.' ld1 on ld1.pid = lm.id';
+        $arrsql[] = 'left join '.static::$strTableDetail.' ld2 on ld2.pid = ld1.pid';
+        $arrsql[] = 'left join '.static::$strTableDetail.' ld3 on ld3.pid = ld2.pid';
         $arrsql[] = 'where lm.form_id = ?';
         $arrsql[] = 'and ld1.name = "eventid" and ld1.value = ?';
         $arrsql[] = 'and ld2.name = "published" and ld2.value = 1';
@@ -77,27 +79,25 @@ class CalendarLeadsModel extends \Model
         $sql = implode(' ', $arrsql);
 
         // und ausführen
-        $objResult = \Database::getInstance()->prepare($sql)->execute($fid, $eid);
-        $count = ($objResult->count) ? $objResult->count : 0;
+        $objResult = Database::getInstance()->prepare($sql)->execute($fid, $eid);
 
-        return $count;
+        return $objResult->count ? $objResult->count : 0;
     }
 
-
     /**
-     * @param $lid int leadid
-     * @param $eid int eventid
-     * @param $mail string email
+     * @param int    $lid  leadid
+     * @param int    $eid  eventid
+     * @param string $mail email
      *
-     * @return \Database\Result|object
+     * @return Result|object
      */
     public static function findByLeadEventMail($lid, $eid, $mail)
     {
         // SQL bauen
         $arrsql[] = 'select ld2.pid';
-        $arrsql[] = 'from ' . static::$strTableMaster . ' lm';
-        $arrsql[] = 'left join ' . static::$strTableDetail . ' ld1 on lm.id = ld1.pid';
-        $arrsql[] = 'left join ' . static::$strTableDetail . ' ld2 on ld2.pid = ld1.pid';
+        $arrsql[] = 'from '.static::$strTableMaster.' lm';
+        $arrsql[] = 'left join '.static::$strTableDetail.' ld1 on lm.id = ld1.pid';
+        $arrsql[] = 'left join '.static::$strTableDetail.' ld2 on ld2.pid = ld1.pid';
         $arrsql[] = 'where lm.form_id = ?';
         $arrsql[] = 'and ld1.name = ?';
         $arrsql[] = 'and ld1.value = ?';
@@ -107,45 +107,46 @@ class CalendarLeadsModel extends \Model
         $sql = implode(' ', $arrsql);
 
         // und ausführen
-        $objResult = \Database::getInstance()->prepare($sql)->execute((int)$lid, "eventid", (int)$eid, "email", $mail);
-        if (!$objResult || $objResult->numRows === 0) {
+        $objResult = Database::getInstance()->prepare($sql)->execute((int) $lid, 'eventid', (int) $eid, 'email', $mail);
+
+        if (!$objResult || 0 === $objResult->numRows) {
             return false;
         }
 
         return self::findByPid($objResult->pid);
     }
 
-
     /**
      * @param $pid
      *
-     * @return \Database\Result|object
+     * @return Result|object
      */
     public static function findByPid($pid)
     {
         // SQL bauen
-        $sql = 'select pid, name, value from ' . static::$strTableDetail . ' where pid = ? order by id';
+        $sql = 'select pid, name, value from '.static::$strTableDetail.' where pid = ? order by id';
         // und ausführen
-        return \Database::getInstance()->prepare($sql)->execute($pid);
+        return Database::getInstance()->prepare($sql)->execute($pid);
     }
 
-
     /**
-     * @param $lid int leadid
-     * @param $eid int eventid
-     * @param $mail string email
-     * @param $published int published
+     * @param int    $lid       leadid
+     * @param int    $eid       eventid
+     * @param string $mail      email
+     * @param int    $published published
      *
      * @return bool
      */
     public static function updateByLeadEventMail($lid, $eid, $mail, $published)
     {
         $objResult = self::findPidByLeadEventMail($lid, $eid, $mail);
-        if (!$objResult || $objResult->numRows === 0) {
+
+        if (!$objResult || 0 === $objResult->numRows) {
             return false;
         }
 
         $result = self::updateByPidField($objResult->pid, 'published', $published);
+
         if (!$result) {
             return false;
         }
@@ -153,21 +154,20 @@ class CalendarLeadsModel extends \Model
         return true;
     }
 
-
     /**
-     * @param $pid int pid
-     * @param $field string fieldname
-     * @param $value mixed value
+     * @param int    $pid   pid
+     * @param string $field fieldname
+     * @param mixed  $value value
      *
      * @return bool
      */
     public static function updateByPid($pid, $value)
     {
         // SQL bauen
-        $sql = 'update ' . static::$strTableDetail . ' set value = ?, label = ? where pid = ? and name = "published"';
+        $sql = 'update '.static::$strTableDetail.' set value = ?, label = ? where pid = ? and name = "published"';
         // und ausführen
-        $objResult = \Database::getInstance()->prepare($sql)->execute((int)$value, (int)$value, (int)$pid);
+        $objResult = Database::getInstance()->prepare($sql)->execute((int) $value, (int) $value, (int) $pid);
 
-        return (bool)$objResult;
+        return (bool) $objResult;
     }
 }

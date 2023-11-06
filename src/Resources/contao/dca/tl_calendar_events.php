@@ -639,6 +639,7 @@ class tl_calendar_events_ext extends \Backend
             return;
         }
 
+        $arrDates = array();
         $maxCount = ($GLOBALS['TL_CONFIG']['tl_calendar_events']['maxRepeatExceptions']) ? $GLOBALS['TL_CONFIG']['tl_calendar_events']['maxRepeatExceptions'] : 365;
         $maxELCount = 250;
 
@@ -737,8 +738,8 @@ class tl_calendar_events_ext extends \Backend
         if ($dc->activeRecord->recurring) {
             $arrRange = deserialize($dc->activeRecord->repeatEach);
 
-            $arg = $arrRange['value'] * $dc->activeRecord->recurrences;
-            $unit = $arrRange['unit'];
+            $arg = isset($arrRange['value']) ? $arrRange['value'] * $dc->activeRecord->recurrences : 0;
+            $unit = $arrRange['unit'] ?? null;
 
             $strtotime = '+ ' . $arg . ' ' . $unit;
             $arrSet['repeatEnd'] = strtotime($strtotime, $arrSet['endTime']);
@@ -768,7 +769,7 @@ class tl_calendar_events_ext extends \Backend
             $end = $arrSet['repeatEnd'];
 
             while ($next <= $end) {
-                $timetoadd = '+ ' . $arrRange['value'] . ' ' . $unit;
+                $timetoadd = '+ ' . ($arrRange['value'] ?? null) . ' ' . $unit;
 
                 // Check if we are at the end
                 if (!strtotime($timetoadd, $next)) {
@@ -831,8 +832,8 @@ class tl_calendar_events_ext extends \Backend
         if ($dc->activeRecord->recurringExt) {
             $arrRange = deserialize($dc->activeRecord->repeatEachExt);
 
-            $arg = $arrRange['value'];
-            $unit = $arrRange['unit'];
+            $arg = isset($arrRange['value']) ? $arrRange['value'] : 0;
+            $unit = $arrRange['unit'] ?? null;
 
             // next month of the event
             $month = (int)date('n', $dc->activeRecord->startDate);

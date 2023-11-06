@@ -252,7 +252,7 @@ class ModuleEventReader extends EventsExt
 
       if (is_array($arrRange) && isset($arrRange['unit']) && isset($arrRange['value'])) {
         $strKey = 'cal_' . $arrRange['unit'];
-        $recurring = sprintf($GLOBALS['TL_LANG']['MSC'][$strKey], $arrRange['value']);
+        $recurring = sprintf($GLOBALS['TL_LANG']['MSC'][$strKey] ?? null, $arrRange['value']);
 
         if ($objEvent->recurrences > 0) {
           $until = sprintf($GLOBALS['TL_LANG']['MSC']['cal_until'], \Date::parse($objPage->dateFormat, $objEvent->repeatEnd));

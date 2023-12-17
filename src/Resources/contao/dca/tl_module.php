@@ -406,7 +406,7 @@ class calendar_Ext extends \Backend
         $event_fields = [];
         foreach ($arr_fields as $k => $v) {
             if (strlen($GLOBALS['TL_LANG']['tl_calendar_events'][$k][0])) {
-                $label = (strlen($v['label'])) ? $v['label'] : $GLOBALS['TL_LANG']['tl_calendar_events'][$k][0];
+                $label = (!empty($v['label'])) ? $v['label'] : $GLOBALS['TL_LANG']['tl_calendar_events'][$k][0];
                 $event_fields[$k] = $label;
             }
         }

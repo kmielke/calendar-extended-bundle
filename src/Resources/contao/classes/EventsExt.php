@@ -242,8 +242,8 @@ class EventsExt extends Events
                             break;
                         }
 
-                        $arg = $arrRepeat['value'];
-                        $unit = $arrRepeat['unit'];
+                        $arg = $arrRepeat['value'] ?? null;
+                        $unit = $arrRepeat['unit'] ?? null;
 
                         $addmonth = true;
                         if ($objEvents->recurring) {
@@ -283,8 +283,10 @@ class EventsExt extends Events
                             }
                         }
 
+                        $oldDate = array();
+
                         // check if there is any exception
-                        if (is_array($arrEventSkipInfo[$objEvents->id])) {
+                        if (isset($arrEventSkipInfo[$objEvents->id]) && is_array($arrEventSkipInfo[$objEvents->id])) {
                             // modify the css class of the exceptions
                             $objEvents->cssClass = $masterCSSClass;
                             unset($objEvents->moveReason);
@@ -297,7 +299,7 @@ class EventsExt extends Events
                             // store old date values for later reset
                             $oldDate = array();
 
-                            if (is_array($arrEventSkipInfo[$objEvents->id][$findDate])) {
+                            if (isset($arrEventSkipInfo[$objEvents->id][$findDate]) && is_array($arrEventSkipInfo[$objEvents->id][$findDate])) {
                                 // $r = $searchDate;
                                 $r = $findDate;
                                 $action = $arrEventSkipInfo[$objEvents->id][$r]['action'];
@@ -349,7 +351,7 @@ class EventsExt extends Events
                         // Skip events outside the scope
                         if ($objEvents->endTime < $intStart || $objEvents->startTime > $intEnd) {
                             // in case of a move we have to reset the original date
-                            if ($oldDate) {
+                            if (!empty($oldDate)) {
                                 $objEvents->startTime = $oldDate['startTime'];
                                 $objEvents->endTime = $oldDate['endTime'];
                             }
@@ -390,7 +392,7 @@ class EventsExt extends Events
                         $objEvents->oldEndTime = null;
 
                         // in case of a move we have to reset the original date
-                        if ($oldDate) {
+                        if (!empty($oldDate)) {
                             $objEvents->startTime = $oldDate['startTime'];
                             $objEvents->endTime = $oldDate['endTime'];
                         }

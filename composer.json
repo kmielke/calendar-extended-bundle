@@ -23,8 +23,13 @@
     "contao/core-bundle": "^4.4",
     "contao/calendar-bundle": "^4.4",
     "menatwork/contao-multicolumnwizard-bundle": "^3.4",
-    "terminal42/notification_center": "^1.5",
+    "terminal42/notification_center": "^1.5"
+  },
+  "require-dev": {
     "terminal42/contao-leads": "^1.4"
+  },
+  "suggest": {
+    "terminal42/contao-leads": "Supports user registration - but only compatible with leads in version 1!"
   },
   "autoload": {
     "psr-4": {

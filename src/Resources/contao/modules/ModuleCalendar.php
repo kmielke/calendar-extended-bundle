@@ -86,6 +86,8 @@ class ModuleCalendar extends EventsExt
                 ->limit(1)->execute($cal);
 
             $this->calConf[$cal]['calendar'] = $objBG->title;
+            $this->calConf[$cal]['background'] = $objBG->bg_color;
+            $this->calConf[$cal]['foreground'] = $objBG->fg_color;
 
             if ($objBG->bg_color) {
                 list($cssColor, $cssOpacity) = deserialize($objBG->bg_color);
